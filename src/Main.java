@@ -1,8 +1,14 @@
-public class Main {
+import core.Game;
 
+public class Main {
     public static void main(String[] args) {
-	    Game game = new Game();
-	    Thread gameThread = new Thread(game);
-	    gameThread.start();
+    	try {
+			Game game = new Game();
+			Thread gameThread = new Thread(game);
+			gameThread.start();
+		}
+		catch (Exception e) {
+    		e.printStackTrace();
+		}
     }
 }
