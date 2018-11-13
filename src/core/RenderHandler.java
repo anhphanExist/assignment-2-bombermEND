@@ -1,5 +1,7 @@
 package core;
 
+import core.animation.Sprite;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -89,5 +91,14 @@ public class RenderHandler {
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = 0;
         }
+    }
+
+    public void renderSprite(Sprite sprite, int xPos, int yPos, int xZoom, int yZoom) {
+        renderArray(sprite.getPixels(), sprite.getWidth(),
+                sprite.getHeight(), xPos, yPos, xZoom, yZoom);
+    }
+
+    public Rectangle getCamera() {
+        return camera;
     }
 }

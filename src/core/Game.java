@@ -6,17 +6,29 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+
 import java.io.IOException;
+
+import core.animation.GameObject;
+import core.character.*;
 
 public class Game extends JFrame implements Runnable {
     private final static int width = 720, height = 640;
-    private Canvas canvas = new Canvas();
-    private RenderHandler renderer;
+
+    private Canvas canvas = new Canvas(); //canvas
+
+    private RenderHandler renderer; //renderer
+
+    private KeyBoard keyBoard = new KeyBoard(); //KeyBoard event
+
+    private GameObject[] gameObjects;
+
     public static int randomColor = 0xFFFF00FF;
 
     //region testing
     public Rectangle testRect;
 
+    private Player player = new Player();
     //endregion
 
     public Game() {
@@ -36,19 +48,33 @@ public class Game extends JFrame implements Runnable {
         //Adding renderer
         renderer = new RenderHandler(getWidth(),getHeight());
 
+        //Add keyBoard resource
+        canvas.addKeyListener(keyBoard);
+        canvas.addFocusListener(keyBoard);
+
         //region testing
-        testRect = new Rectangle(32,16,16,32);
-        testRect.generateGraphic(3,0xFF00FF90);
+        addGameObjects(1);
+
+        testRect = new Rectangle(32,16,16,16);
+        testRect.generateGraphic(1,0xFF00FF90);
 
         //endregion
 
+    }
+
+
+    public void addGameObjects(int num) {
+        gameObjects = new GameObject[num];
+        gameObjects[0] = player;
     }
 
     /**
      * update method
      */
     public void update() {
-
+        for (int i = 0; i < gameObjects.length; i++ ) {
+            gameObjects[i].update(this);
+        }
     }
 
     /**
@@ -62,6 +88,10 @@ public class Game extends JFrame implements Runnable {
 
         //region testing
         renderer.renderRectangle(testRect,3,3);
+
+        for (int i = 0; i < gameObjects.length; i++ ) {
+            gameObjects[i].render(renderer,2,2);
+        }
 
         //endregion
 
@@ -112,5 +142,12 @@ public class Game extends JFrame implements Runnable {
             e.printStackTrace();
             return null;
         }
+    }
+    public KeyBoard getKeyBoard() {
+        return keyBoard;
+    }
+
+    public RenderHandler getRenderer() {
+        return renderer;
     }
 }
