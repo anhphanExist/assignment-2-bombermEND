@@ -28,7 +28,7 @@ public class Game extends JFrame implements Runnable {
     //region testing
     public Rectangle testRect;
 
-    private Player player = new Player();
+    private Player player = new Player(6);
     //endregion
 
     public Game() {

@@ -7,7 +7,7 @@ public class Player implements GameObject{
     private Rectangle playerRectangle;
     private int speed = 10;
     private AnimatedSprite animatedSprite = null;
-
+    private int characterNum = 0, xLocCharacter = 0, yLocCharacter = 0;
     /**
      * 0 = up, 1 = right, 2 = down, 3 = left
      */
@@ -27,7 +27,7 @@ public class Player implements GameObject{
         Rectangle[] spritePos = new Rectangle[12];
         for (int x = 0; x < 3 ;x++){
             for (int y = 0; y < 4; y++) {
-                spritePos[3 * y + x] = new Rectangle( (x + 9) * 32,  y * 32, 32, 32 );
+                spritePos[3 * y + x] = new Rectangle( (x + xLocCharacter) * 32,  (y + yLocCharacter) * 32, 32, 32 );
             }
         }
 
@@ -36,12 +36,29 @@ public class Player implements GameObject{
         return animatedSprite;
     }
 
-    public Player() {
+    public Player(int _CharacterNum) {
+        characterNum = _CharacterNum;
+
+        if (characterNum < 6) {
+            xLocCharacter = (characterNum % 3) * 3;
+
+            if (characterNum < 3)
+                yLocCharacter = 0;
+
+            else
+                yLocCharacter = 4;
+        }
+
+        else {
+            xLocCharacter = 9;
+            yLocCharacter = 0;
+        }
+
         this.animatedSprite = constructSprite();
 
         updateDirection();
-        playerRectangle = new Rectangle(32,16,12,12);
-        playerRectangle.generateGraphic(1,0xFF00FF90);
+        playerRectangle = new Rectangle(32,16,32,32);
+//        playerRectangle.generateGraphic(1,0xFF00FF90);
     }
 
     private void updateDirection() {
@@ -72,7 +89,7 @@ public class Player implements GameObject{
     @Override
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         renderer.renderSprite(animatedSprite, playerRectangle.x, playerRectangle.y, xZoom, yZoom);
-        //renderer.renderRectangle(playerRectangle,3,3);
+        //renderer.renderRectangle(playerRectangle,xZoom,yZoom);
     }
 
     @Override
