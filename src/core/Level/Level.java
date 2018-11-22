@@ -13,7 +13,7 @@ public class Level {
     public static final int NUMBER_OF_LEVELS = 1;
     public static final int MATERIALS_SPRITE_SIZE = 16;
     private static final String LEVEL1_PATH = "src/core/Level/level1.txt";
-    private static final String MATERIALS_PATH = "Level/materials.png";
+    private static final String MATERIALS_PATH = "imageFolder/materials.png";
     private static final String TILES_PATH = "src/core/Level/tiles.txt";
 
     private int currentLevel = 1;
