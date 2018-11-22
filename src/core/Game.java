@@ -34,10 +34,11 @@ public class Game extends JFrame implements Runnable {
     private SpriteSheet bombSheet = new SpriteSheet(imageBom);
 
     //region testing
-    public Rectangle testRect;
     private Level level1;
 
     private Player player = new Player(6);
+    private ArrayList<Enemy> enemies = new ArrayList<>();
+
     //endregion
 
     public Game() {
@@ -64,10 +65,6 @@ public class Game extends JFrame implements Runnable {
         //region testing
         level1 = new Level(); // add level1
         addGameObjects();
-
-        testRect = new Rectangle(0,0,16,16);
-        testRect.generateGraphic(1,0xFF00FF90);
-
         //endregion
 
     }
@@ -75,6 +72,11 @@ public class Game extends JFrame implements Runnable {
 
     public void addGameObjects() {
         gameObjects.add(player);
+        for (int i = 0; i < 3; i++ ){
+            Enemy enemy = new Enemy(256 * i + 256,256);
+            enemies.add(enemy);
+        }
+        gameObjects.addAll(enemies);
     }
 
     /**
@@ -83,6 +85,13 @@ public class Game extends JFrame implements Runnable {
     public void update() {
         for (int i = 0; i < gameObjects.size(); i++ ) {
             gameObjects.get(i).update(this);
+        }
+
+        //Update bomb list
+        if (!player.getBombs().isEmpty()) {
+            for (int i = 0; i < player.getBombs().size(); i++) {
+                player.getBombs().get(i).update(this);
+            }
         }
     }
 
@@ -97,10 +106,20 @@ public class Game extends JFrame implements Runnable {
 
         //region testing
         level1.render(renderer, MATERIAL_ZOOM, MATERIAL_ZOOM); // render level1 (including map)
-        renderer.renderRectangle(testRect,4,4);
 
         for (int i = 0; i < gameObjects.size(); i++ ) {
-            gameObjects.get(i).render(renderer,PLAYER_ZOOM,PLAYER_ZOOM);
+            if (! (gameObjects.get(i) instanceof Enemy))
+                gameObjects.get(i).render(renderer,PLAYER_ZOOM,PLAYER_ZOOM);
+            else {
+                gameObjects.get(i).render(renderer,MATERIAL_ZOOM,MATERIAL_ZOOM);
+            }
+        }
+
+        //Render bomb list
+        if (!player.getBombs().isEmpty()) {
+            for (int i = 0; i < player.getBombs().size(); i++) {
+                player.getBombs().get(i).render(renderer, MATERIAL_ZOOM, MATERIAL_ZOOM);
+            }
         }
 
         //endregion
