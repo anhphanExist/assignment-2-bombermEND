@@ -11,6 +11,9 @@ public class SpriteSheet {
     private int spriteSizeX;
 
     public SpriteSheet(BufferedImage sheetImage) {
+        if (sheetImage == null) {
+            throw new NullPointerException("Load image fail");
+        }
         this.image = sheetImage;
         SIZEX = sheetImage.getWidth();
         SIZEY = sheetImage.getHeight();
