@@ -76,4 +76,19 @@ public class Rectangle {
 
         return pixels;
     }
+
+    /**
+     * Check if two rectangle lay over each other
+     * @param otherRect
+     * @return
+     */
+    public boolean intersects(Rectangle otherRect) {
+        if(x > otherRect.x + otherRect.w || otherRect.x > x + w)
+            return false;
+
+        if(y > otherRect.y + otherRect.h || otherRect.y > y + h)
+            return false;
+
+        return true;
+    }
 }
