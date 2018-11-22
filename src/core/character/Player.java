@@ -7,24 +7,33 @@ import core.*;
 import java.util.ArrayList;
 
 public class Player implements GameObject{
-    private Rectangle playerRectangle;
-    private Rectangle collisionCheckRectangle;
+    protected Rectangle playerRectangle;
+    protected Rectangle collisionCheckRectangle;
+
+    //Player speed
     private int speed = 10;
-    private AnimatedSprite animatedSprite;
+
+    //Spire animate for player
+    protected AnimatedSprite animatedSprite;
+    //Location on the spire
     private int xLocCharacter;
     private int yLocCharacter;
 
-    // Collision offset
-    private final int xCollisionOffset = 10;
-    private final int yCollisionOffset = 10;
 
+    //Bomb list
+    private ArrayList<Bomb> bombs = new ArrayList<>();
     private int bomLimit = 1;
     private int currentNumBom = 0;
+
+
+    // Collision offset
+    protected final int xCollisionOffset = 10;
+    protected final int yCollisionOffset = 10;
 
     /**
      * 0 = up, 1 = right, 2 = down, 3 = left
      */
-    private int direction = 0;
+    protected int direction = 0;
 
     /**
      * construct sprites of character from the sheet
@@ -47,6 +56,10 @@ public class Player implements GameObject{
         return new AnimatedSprite(characterSheet,spritePos,5);
     }
 
+    public Player() {
+
+    }
+
     public Player(int _CharacterNum) {
 
         if (_CharacterNum < 6) {
@@ -64,7 +77,7 @@ public class Player implements GameObject{
             yLocCharacter = 0;
         }
 
-        this.animatedSprite = constructSprite();
+        animatedSprite = constructSprite();
 
         updateDirection();
         // Init player rectangle, sprite size = 32
@@ -79,7 +92,7 @@ public class Player implements GameObject{
     /**
      * update the direction every time we move
      */
-    private void updateDirection() {
+    protected void updateDirection() {
         if (animatedSprite != null) {
             //Up line 4
             if (direction == 0) {
@@ -155,13 +168,12 @@ public class Player implements GameObject{
         if (!isMove) {
             animatedSprite.reset();
         }
-
-        if (isMove) {
+        else  {
             // Increase checkrectangle by offset to not collide at the very beginning
             collisionCheckRectangle.x += xCollisionOffset;
             collisionCheckRectangle.y += yCollisionOffset;
 
-            // check x collsion
+            // check x collision
             Rectangle xAxisCheck = new Rectangle(collisionCheckRectangle.x, playerRectangle.y + yCollisionOffset, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(xAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
                 playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
@@ -181,17 +193,12 @@ public class Player implements GameObject{
 
         //Release the bomb
         if (keyBoard.space() && currentNumBom < bomLimit) {
-            ArrayList<GameObject> temp = game.getGameObjects();
-
             Bomb bomb = new Bomb(game.getBombSheet(), this);
 
-            temp.add(bomb);
-
-            game.setGameObjects(temp);
+            bombs.add(bomb);
 
             currentNumBom++;
         }
-
     }
 
     /**
@@ -224,5 +231,13 @@ public class Player implements GameObject{
      */
     public void setCurrentNumBom(int currentNumBom) {
         this.currentNumBom = currentNumBom;
+    }
+
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
+    }
+
+    public void setBombs(ArrayList<Bomb> bombs) {
+        this.bombs = bombs;
     }
 }

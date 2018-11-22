@@ -49,11 +49,11 @@ public class Bomb implements GameObject {
 
         if (counter == speed * 4) {
             //Blowing the bomb
-            ArrayList<GameObject> temporaryList = game.getGameObjects();
+            ArrayList<Bomb> temporaryList = player.getBombs();
 
-            temporaryList.remove(temporaryList.size() - 1);
+            temporaryList.remove(this);
 
-            game.setGameObjects(temporaryList);
+            player.setBombs(temporaryList);
 
             this.player.setCurrentNumBom(this.player.getCurrentNumBom() - 1);
         }
