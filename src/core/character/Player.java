@@ -1,5 +1,6 @@
 package core.character;
 
+import core.Level.Level;
 import core.animation.*;
 import core.*;
 
@@ -7,10 +8,15 @@ import java.util.ArrayList;
 
 public class Player implements GameObject{
     private Rectangle playerRectangle;
+    private Rectangle collisionCheckRectangle;
     private int speed = 10;
     private AnimatedSprite animatedSprite;
     private int xLocCharacter;
     private int yLocCharacter;
+
+    // Collision offset
+    private final int xCollisionOffset = 10;
+    private final int yCollisionOffset = 10;
 
     private int bomLimit = 1;
     private int currentNumBom = 0;
@@ -61,8 +67,13 @@ public class Player implements GameObject{
         this.animatedSprite = constructSprite();
 
         updateDirection();
-        playerRectangle = new Rectangle(32,16,32,32);
+        // Init player rectangle, sprite size = 32
+        playerRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,32,32);
         playerRectangle.generateGraphic(1,0xFF00FF90);
+
+        // Init collisionCheckRectangle and generate graphic, size = 48
+        collisionCheckRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * 16,48,48);
+        collisionCheckRectangle.generateGraphic(1, 0xFF00FF90);
     }
 
     /**
@@ -105,30 +116,33 @@ public class Player implements GameObject{
         boolean isMove = false;
         int newDirection = direction;
 
+        collisionCheckRectangle.x = playerRectangle.x;
+        collisionCheckRectangle.y = playerRectangle.y;
+
         //Update direction if turn left
         if (keyBoard.left()) {
-            playerRectangle.x -= speed;
+            collisionCheckRectangle.x -= speed;
             newDirection = 3;
             isMove = true;
         }
 
         //Update direction if turn right
         if (keyBoard.right()) {
-            playerRectangle.x += speed;
+            collisionCheckRectangle.x += speed;
             newDirection = 1;
             isMove = true;
         }
 
         //Update direction if turn up
         if (keyBoard.up()) {
-            playerRectangle.y -= speed;
+            collisionCheckRectangle.y -= speed;
             newDirection = 0;
             isMove = true;
         }
 
         //Update direction if turn down
         if (keyBoard.down()) {
-            playerRectangle.y += speed;
+            collisionCheckRectangle.y += speed;
             newDirection = 2;
             isMove = true;
         }
@@ -142,11 +156,28 @@ public class Player implements GameObject{
             animatedSprite.reset();
         }
 
-        movingWithCam(game.getRenderer().getCamera());
-
         if (isMove) {
+            // Increase checkrectangle by offset to not collide at the very beginning
+            collisionCheckRectangle.x += xCollisionOffset;
+            collisionCheckRectangle.y += yCollisionOffset;
+
+            // check x collsion
+            Rectangle xAxisCheck = new Rectangle(collisionCheckRectangle.x, playerRectangle.y + yCollisionOffset, collisionCheckRectangle.w, collisionCheckRectangle.h);
+            if (!game.getLevel1().getMap().checkCollision(xAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
+                playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
+            }
+
+            // check y collision
+            Rectangle yAxisCheck = new Rectangle(playerRectangle.x + xCollisionOffset, collisionCheckRectangle.y, collisionCheckRectangle.w, collisionCheckRectangle.h);
+            if (!game.getLevel1().getMap().checkCollision(yAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
+                playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+            }
+            // Update animated sprite
             animatedSprite.update(game);
         }
+
+        // moving camera
+        movingWithCam(game.getRenderer().getCamera());
 
         //Release the bomb
         if (keyBoard.space() && currentNumBom < bomLimit) {
