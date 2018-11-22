@@ -10,12 +10,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import core.Level.Level;
 import core.animation.GameObject;
 import core.animation.SpriteSheet;
 import core.character.*;
 
 public class Game extends JFrame implements Runnable {
     private final static int width = 720, height = 640;
+    public static final int MATERIAL_ZOOM = 4;
+    public static final int PLAYER_ZOOM = 2;
 
     private Canvas canvas = new Canvas(); //canvas
 
@@ -32,6 +35,7 @@ public class Game extends JFrame implements Runnable {
 
     //region testing
     public Rectangle testRect;
+    private Level level1;
 
     private Player player = new Player(6);
     //endregion
@@ -58,9 +62,10 @@ public class Game extends JFrame implements Runnable {
         canvas.addFocusListener(keyBoard);
 
         //region testing
+        level1 = new Level(); // add level1
         addGameObjects();
 
-        testRect = new Rectangle(32,16,16,16);
+        testRect = new Rectangle(0,0,16,16);
         testRect.generateGraphic(1,0xFF00FF90);
 
         //endregion
@@ -91,10 +96,11 @@ public class Game extends JFrame implements Runnable {
         super.paint(graphics);
 
         //region testing
-        renderer.renderRectangle(testRect,3,3);
+        level1.render(renderer, MATERIAL_ZOOM, MATERIAL_ZOOM); // render level1 (including map)
+        renderer.renderRectangle(testRect,4,4);
 
         for (int i = 0; i < gameObjects.size(); i++ ) {
-            gameObjects.get(i).render(renderer,2,2);
+            gameObjects.get(i).render(renderer,PLAYER_ZOOM,PLAYER_ZOOM);
         }
 
         //endregion
@@ -157,6 +163,10 @@ public class Game extends JFrame implements Runnable {
 
     public SpriteSheet getBombSheet() {
         return bombSheet;
+    }
+
+    public Level getLevel1() {
+        return level1;
     }
 
     public ArrayList<GameObject> getGameObjects() {
