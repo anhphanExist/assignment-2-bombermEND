@@ -8,8 +8,10 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import core.animation.GameObject;
+import core.animation.SpriteSheet;
 import core.character.*;
 
 public class Game extends JFrame implements Runnable {
@@ -21,9 +23,12 @@ public class Game extends JFrame implements Runnable {
 
     private KeyBoard keyBoard = new KeyBoard(); //KeyBoard event
 
-    private GameObject[] gameObjects;
+    private ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     public static int randomColor = 0xFFFF00FF;
+
+    private BufferedImage imageBom = loadImage("imageFolder/bomb_party_v3.png");
+    private SpriteSheet bombSheet = new SpriteSheet(imageBom);
 
     //region testing
     public Rectangle testRect;
@@ -53,7 +58,7 @@ public class Game extends JFrame implements Runnable {
         canvas.addFocusListener(keyBoard);
 
         //region testing
-        addGameObjects(1);
+        addGameObjects();
 
         testRect = new Rectangle(32,16,16,16);
         testRect.generateGraphic(1,0xFF00FF90);
@@ -63,17 +68,16 @@ public class Game extends JFrame implements Runnable {
     }
 
 
-    public void addGameObjects(int num) {
-        gameObjects = new GameObject[num];
-        gameObjects[0] = player;
+    public void addGameObjects() {
+        gameObjects.add(player);
     }
 
     /**
      * update method
      */
     public void update() {
-        for (int i = 0; i < gameObjects.length; i++ ) {
-            gameObjects[i].update(this);
+        for (int i = 0; i < gameObjects.size(); i++ ) {
+            gameObjects.get(i).update(this);
         }
     }
 
@@ -89,8 +93,8 @@ public class Game extends JFrame implements Runnable {
         //region testing
         renderer.renderRectangle(testRect,3,3);
 
-        for (int i = 0; i < gameObjects.length; i++ ) {
-            gameObjects[i].render(renderer,2,2);
+        for (int i = 0; i < gameObjects.size(); i++ ) {
+            gameObjects.get(i).render(renderer,2,2);
         }
 
         //endregion
@@ -149,5 +153,17 @@ public class Game extends JFrame implements Runnable {
 
     public RenderHandler getRenderer() {
         return renderer;
+    }
+
+    public SpriteSheet getBombSheet() {
+        return bombSheet;
+    }
+
+    public ArrayList<GameObject> getGameObjects() {
+        return gameObjects;
+    }
+
+    public void setGameObjects(ArrayList<GameObject> gameObjects) {
+        this.gameObjects = gameObjects;
     }
 }
