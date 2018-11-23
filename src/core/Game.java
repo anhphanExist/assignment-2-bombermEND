@@ -17,6 +17,7 @@ import core.character.*;
 
 public class Game extends JFrame implements Runnable {
     private final static int width = 720, height = 640;
+
     public static final int MATERIAL_ZOOM = 4;
     public static final int PLAYER_ZOOM = 2;
 
