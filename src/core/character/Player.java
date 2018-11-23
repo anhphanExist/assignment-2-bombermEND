@@ -81,12 +81,12 @@ public class Player implements GameObject{
 
         updateDirection();
         // Init player rectangle, sprite size = 32
-        playerRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,32,32);
-        playerRectangle.generateGraphic(1,0xFF00FF90);
+        playerRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Level.PLAYER_SPRITE_SIZE,Level.PLAYER_SPRITE_SIZE);
+        playerRectangle.generateGraphic(2,0xFF00FF90);
 
         // Init collisionCheckRectangle and generate graphic, size = 48
-        collisionCheckRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * 16,48,48);
-        collisionCheckRectangle.generateGraphic(1, 0xFF00FF90);
+        collisionCheckRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * 16,playerRectangle.w * 3 / 2,playerRectangle.h * 3 / 2);
+        collisionCheckRectangle.generateGraphic(2, 0xFF00FF90);
     }
 
     /**
@@ -95,7 +95,6 @@ public class Player implements GameObject{
     protected void updateDirection() {
         if (animatedSprite != null) {
             //Up line 4
-            if (direction == 0) {
                 animatedSprite.setAnimationRange(9,11);
             }
 
@@ -108,6 +107,7 @@ public class Player implements GameObject{
             if (direction == 3) {
                 animatedSprite.setAnimationRange(3,5);
             }
+            if (direction == 0) {
 
             //Down line 0
             if (direction == 2) {
@@ -120,7 +120,7 @@ public class Player implements GameObject{
     @Override
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         renderer.renderSprite(animatedSprite, playerRectangle.x, playerRectangle.y, xZoom, yZoom);
-        renderer.renderRectangle(playerRectangle,xZoom,yZoom);
+        renderer.renderRectangle(collisionCheckRectangle,xZoom,yZoom);
     }
 
     @Override
