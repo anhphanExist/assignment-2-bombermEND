@@ -57,10 +57,10 @@ public class Enemy extends Player {
         direction = random.nextInt(4);
 
         //Set enemyRectangle
-        this.playerRectangle = new Rectangle(xLoc,yLoc,16,16);
+        this.playerRectangle = new Rectangle(xLoc,yLoc,Level.MATERIALS_SPRITE_SIZE,Level.MATERIALS_SPRITE_SIZE);
 
-        // Init collisionCheckRectangle and generate graphic, size = 48
-        this.collisionCheckRectangle = new Rectangle(xLoc,yLoc,48,48);
+        // Init collisionCheckRectangle and generate graphic, size = 16 * 3 / 2
+        this.collisionCheckRectangle = new Rectangle(xLoc,yLoc, playerRectangle.w * 3 / 2,playerRectangle.h * 3 / 2);
         this.collisionCheckRectangle.generateGraphic(1, 0xFF00FF90);
     }
 
