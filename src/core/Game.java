@@ -74,7 +74,7 @@ public class Game extends JFrame implements Runnable {
     public void addGameObjects() {
         gameObjects.add(player);
         for (int i = 0; i < 3; i++ ){
-            Enemy enemy = new Enemy(256 * i + 256,256);
+            Enemy enemy = new Enemy(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE * (i + 1));
             enemies.add(enemy);
         }
         gameObjects.addAll(enemies);
