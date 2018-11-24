@@ -11,6 +11,7 @@ import java.util.Random;
 public class Enemy extends Player {
     private int directCounting = 0;
     private int enemySpeed = 5;
+    private int enemyType = 0;
 
     /**
      * construct sprites of character from the sheet
@@ -42,6 +43,7 @@ public class Enemy extends Player {
         }
     }
 
+
     /**
      * Create enemy
      * @param xLoc - x location
@@ -57,14 +59,14 @@ public class Enemy extends Player {
         direction = random.nextInt(4);
 
         //Set enemyRectangle
-        this.playerRectangle = new Rectangle(xLoc,yLoc,Level.PLAYER_SPRITE_SIZE,Level.PLAYER_SPRITE_SIZE);
+        this.playerRectangle = new Rectangle(xLoc, yLoc, Level.PLAYER_SPRITE_SIZE, Level.PLAYER_SPRITE_SIZE);
         this.playerRectangle.generateGraphic(1, 0xFF00FF90);
 
         this.xCollisionOffset = 10;
         this.yCollisionOffset = 10;
 
         // Init collisionCheckRectangle and generate graphic, size = 16 * 3 / 2
-        this.collisionCheckRectangle = new Rectangle(xLoc,yLoc, this.playerRectangle.w * 3 / 2,this.playerRectangle.h * 3 / 2);
+        this.collisionCheckRectangle = new Rectangle(xLoc, yLoc, this.playerRectangle.w * 3 / 2,this.playerRectangle.h * 3 / 2);
         this.collisionCheckRectangle.generateGraphic(1, 0xFF00FF90);
     }
 
