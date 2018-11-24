@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Enemy extends Player {
     private int directCounting = 0;
-    private int enemySpeed = 1;
+    private int enemySpeed = 5;
 
     /**
      * construct sprites of character from the sheet
@@ -57,10 +57,14 @@ public class Enemy extends Player {
         direction = random.nextInt(4);
 
         //Set enemyRectangle
-        this.playerRectangle = new Rectangle(xLoc,yLoc,Level.MATERIALS_SPRITE_SIZE,Level.MATERIALS_SPRITE_SIZE);
+        this.playerRectangle = new Rectangle(xLoc,yLoc,Level.PLAYER_SPRITE_SIZE,Level.PLAYER_SPRITE_SIZE);
+        this.playerRectangle.generateGraphic(1, 0xFF00FF90);
+
+        this.xCollisionOffset = 20;
+        this.yCollisionOffset = 20;
 
         // Init collisionCheckRectangle and generate graphic, size = 16 * 3 / 2
-        this.collisionCheckRectangle = new Rectangle(xLoc,yLoc, playerRectangle.w * 3 / 2,playerRectangle.h * 3 / 2);
+        this.collisionCheckRectangle = new Rectangle(xLoc,yLoc, this.playerRectangle.w * 3 / 2,this.playerRectangle.h * 3 / 2);
         this.collisionCheckRectangle.generateGraphic(1, 0xFF00FF90);
     }
 
@@ -85,29 +89,28 @@ public class Enemy extends Player {
         //Moving base on direction
         switch (this.direction) {
             case 1:
-                playerRectangle.x += enemySpeed;
+
                 isMove = true;
                 collisionCheckRectangle.x += enemySpeed;
                 break;
             case 0:
-                playerRectangle.y -= enemySpeed;
+
                 isMove = true;
                 collisionCheckRectangle.y -= enemySpeed;
                 break;
             case 2:
-                playerRectangle.y += enemySpeed;
+
                 isMove = true;
                 collisionCheckRectangle.y += enemySpeed;
                 break;
             case 3:
-                playerRectangle.x -= enemySpeed;
+
                 isMove = true;
                 collisionCheckRectangle.x -= enemySpeed;
                 break;
         }
 
-        collisionCheckRectangle.x = this.playerRectangle.x;
-        collisionCheckRectangle.y = this.playerRectangle.y;
+
 
         //New direction checking
         if (newDirection != direction) {
@@ -119,8 +122,26 @@ public class Enemy extends Player {
             this.animatedSprite.reset();
         }
         else  {
+
+            // Increase checkrectangle by offset to not collide at the very beginning
+            collisionCheckRectangle.x += xCollisionOffset;
+            collisionCheckRectangle.y += yCollisionOffset;
+
+            // check x collision
+            Rectangle xAxisCheck = new Rectangle(collisionCheckRectangle.x, playerRectangle.y + yCollisionOffset, collisionCheckRectangle.w, collisionCheckRectangle.h);
+            if (!game.getLevel1().getMap().checkCollision(xAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
+                playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
+            }
+
+            // check y collision
+            Rectangle yAxisCheck = new Rectangle(playerRectangle.x + xCollisionOffset, collisionCheckRectangle.y, collisionCheckRectangle.w, collisionCheckRectangle.h);
+            if (!game.getLevel1().getMap().checkCollision(yAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
+                playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+            }
+
+
             this.animatedSprite.update(game);
-            //Collision handle here
+
         }
     }
 }
