@@ -1,7 +1,11 @@
 package core.Level;
 
+import core.Game;
 import core.Rectangle;
 import core.RenderHandler;
+import core.animation.GameObject;
+import core.character.Enemy;
+import core.character.Player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +18,10 @@ public class Map {
     private Tiles tileSet;
     private int fillTileID = -1;
     private ArrayList<MappedTile> mappedTiles = new ArrayList<>();
+
+    private ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private Player player = new Player(6);
+    private ArrayList<Enemy> enemies = new ArrayList<>();
 
     private File mapFile;
 
@@ -43,13 +51,26 @@ public class Map {
                     else {
                         // Read the maze, # = wall, * = brick, f = item
                         for (int i = 0; i < cols; i++) {
+                            // Read the character in the level txt file
                             if (line.charAt(i) == '#') {
                                 mappedTiles.add(new MappedTile(Tiles.WALL_ID, i, curRow, true));
                             } else if (line.charAt(i) == '*') {
                                 mappedTiles.add(new MappedTile(Tiles.BRICK_ID, i, curRow, true));
                             } else if (line.charAt(i) == 'f') {
                                 mappedTiles.add(new MappedTile(Tiles.ITEM_ID, i, curRow, true));
+                            } else if (line.charAt(i) == 'p'){
+                                // At the location of gameObject need to add grass as default
+                                mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
+                                gameObjects.add(player);
+                            } else if (line.charAt(i) == '1') {
+                                // At the location of gameObjects need to add grass as default
+                                mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
+                                // Set mapped enemy base on txt file
+                                Enemy enemy = new Enemy(i * Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE, curRow * Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE);
+                                enemies.add(enemy);
+                                gameObjects.add(enemy);
                             } else {
+                                // All other location is grass
                                 mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
                             }
                         }
@@ -91,6 +112,39 @@ public class Map {
             MappedTile mappedTile = mappedTiles.get(tileIndex);
             tileSet.renderTile(mappedTile.id, renderer, mappedTile.x * tileWidth, mappedTile.y * tileHeight, xZoom, yZoom);
         }
+
+        // Load game objects in the maze
+        for (int i = 0; i < gameObjects.size(); i++ ) {
+            if (! (gameObjects.get(i) instanceof Enemy))
+                gameObjects.get(i).render(renderer,Game.PLAYER_ZOOM,Game.PLAYER_ZOOM);
+            else {
+                gameObjects.get(i).render(renderer,Game.MATERIAL_ZOOM,Game.MATERIAL_ZOOM);
+            }
+        }
+
+        //Render bomb list
+        if (!player.getBombs().isEmpty()) {
+            for (int i = 0; i < player.getBombs().size(); i++) {
+                player.getBombs().get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
+            }
+        }
+    }
+
+    /**
+     * Update object and bomb
+     * @param game
+     */
+    public void update(Game game) {
+        for (int i = 0; i < gameObjects.size(); i++ ) {
+            gameObjects.get(i).update(game);
+        }
+
+        //Update bomb list
+        if (!player.getBombs().isEmpty()) {
+            for (int i = 0; i < player.getBombs().size(); i++) {
+                player.getBombs().get(i).update(game);
+            }
+        }
     }
 
     /**
@@ -114,11 +168,17 @@ public class Map {
         for (int x = topLeftX; x < bottomRightX; x++) {
             for (int y = topLeftY; y < bottomRightY; y++) {
                 MappedTile tile = getMappedTile(x, y);
+                Enemy enemy = getEnemyAt(x * tileWidth, y * tileHeight);
                 if (tile != null && tile.collidable) {
                     Rectangle tileRectangle = new Rectangle(tile.x * tileWidth, tile.y * tileHeight, tileWidth, tileHeight);
                     if (tileRectangle.intersects(rect))
                         return true;
                 }
+//                if (enemy != null) {
+//                    if (enemy.getCollisionCheckRectangle().intersects(rect)) {
+//                        return true;
+//                    }
+//                }
             }
         }
         return false;
@@ -140,5 +200,30 @@ public class Map {
 
         return null;
     }
+
+    /**
+     * Get the enemy at specific location if there is any
+     * @param xLoc
+     * @param yLoc
+     * @return
+     */
+    public Enemy getEnemyAt(int xLoc, int yLoc) {
+
+        for (Enemy curEnemy : enemies) {
+            if (curEnemy.getPlayerRectangle().x == xLoc && curEnemy.getPlayerRectangle().y == yLoc) {
+                return curEnemy;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<GameObject> getGameObjects() {
+        return gameObjects;
+    }
+
+    public void setGameObjects(ArrayList<GameObject> gameObjects) {
+        this.gameObjects = gameObjects;
+    }
+
 
 }
