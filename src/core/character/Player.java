@@ -27,8 +27,8 @@ public class Player implements GameObject{
 
 
     // Collision offset
-    protected final int xCollisionOffset = 10;
-    protected final int yCollisionOffset = 10;
+    protected int xCollisionOffset = 10;
+    protected int yCollisionOffset = 10;
 
     /**
      * 0 = up, 1 = right, 2 = down, 3 = left
@@ -85,7 +85,7 @@ public class Player implements GameObject{
         playerRectangle.generateGraphic(2,0xFF00FF90);
 
         // Init collisionCheckRectangle and generate graphic, size = 48
-        collisionCheckRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * 16,playerRectangle.w * 3 / 2,playerRectangle.h * 3 / 2);
+        collisionCheckRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,playerRectangle.w * 3 / 2,playerRectangle.h * 3 / 2);
         collisionCheckRectangle.generateGraphic(2, 0xFF00FF90);
     }
 
@@ -94,21 +94,19 @@ public class Player implements GameObject{
      */
     protected void updateDirection() {
         if (animatedSprite != null) {
-            //Up line 4
-                animatedSprite.setAnimationRange(9,11);
-            }
 
             //Right line 3
             if (direction == 1) {
                 animatedSprite.setAnimationRange(6,8);
             }
-
             //Left line 2
             if (direction == 3) {
                 animatedSprite.setAnimationRange(3,5);
             }
+            //Up line 4
             if (direction == 0) {
-
+                animatedSprite.setAnimationRange(9,11);
+            }
             //Down line 0
             if (direction == 2) {
                 animatedSprite.setAnimationRange(0,2);
