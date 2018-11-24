@@ -18,6 +18,8 @@ public class Level {
     private static final String MATERIALS_PATH = "imageFolder/materials.png";
     private static final String TILES_PATH = "src/core/Level/tiles.txt";
 
+    private Game game;
+
     private int currentLevel = 1;
     private SpriteSheet levelMaterials;
     private Tiles tiles;
@@ -41,10 +43,28 @@ public class Level {
         }
     }
 
+    /**
+     * render the map
+     * @param renderer
+     * @param xZoom
+     * @param yZoom
+     */
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
-        map.render(renderer, xZoom, yZoom);
+        map.render( renderer, xZoom, yZoom);
     }
 
+    /**
+     * update the map
+     * @param game
+     */
+    public void update(Game game) {
+        map.update(game);
+    }
+
+    /**
+     * get the map in this level
+     * @return
+     */
     public Map getMap() {
         return map;
     }
