@@ -118,7 +118,8 @@ public class Player implements GameObject{
     @Override
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         renderer.renderSprite(animatedSprite, playerRectangle.x, playerRectangle.y, xZoom, yZoom);
-        renderer.renderRectangle(collisionCheckRectangle,xZoom,yZoom);
+
+        renderer.renderRectangle(collisionCheckRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
     }
 
     @Override
