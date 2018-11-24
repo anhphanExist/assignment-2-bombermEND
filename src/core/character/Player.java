@@ -56,9 +56,7 @@ public class Player implements GameObject{
         return new AnimatedSprite(characterSheet,spritePos,5);
     }
 
-    public Player() {
-
-    }
+    public Player() {}
 
     public Player(int _CharacterNum) {
 
@@ -215,6 +213,9 @@ public class Player implements GameObject{
         return playerRectangle;
     }
 
+    public Rectangle getCollisionCheckRectangle() {
+        return collisionCheckRectangle;
+    }
 
     /**
      * current Number of bomb getter
