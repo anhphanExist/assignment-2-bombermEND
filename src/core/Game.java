@@ -27,7 +27,7 @@ public class Game extends JFrame implements Runnable {
 
     private KeyBoard keyBoard = new KeyBoard(); //KeyBoard event
 
-    private ArrayList<GameObject> gameObjects = new ArrayList<>();
+
 
     public static int randomColor = 0xFFFF00FF;
 
@@ -37,8 +37,7 @@ public class Game extends JFrame implements Runnable {
     //region testing
     private Level level1;
 
-    private Player player = new Player(6);
-    private ArrayList<Enemy> enemies = new ArrayList<>();
+
 
     //endregion
 
@@ -65,35 +64,18 @@ public class Game extends JFrame implements Runnable {
 
         //region testing
         level1 = new Level(); // add level1
-        addGameObjects();
         //endregion
 
     }
 
 
-    public void addGameObjects() {
-        gameObjects.add(player);
-        for (int i = 0; i < 3; i++ ){
-            Enemy enemy = new Enemy(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE * (i + 1));
-            enemies.add(enemy);
-        }
-        gameObjects.addAll(enemies);
-    }
+
 
     /**
      * update method
      */
     public void update() {
-        for (int i = 0; i < gameObjects.size(); i++ ) {
-            gameObjects.get(i).update(this);
-        }
-
-        //Update bomb list
-        if (!player.getBombs().isEmpty()) {
-            for (int i = 0; i < player.getBombs().size(); i++) {
-                player.getBombs().get(i).update(this);
-            }
-        }
+        level1.update(this);
     }
 
     /**
@@ -108,20 +90,7 @@ public class Game extends JFrame implements Runnable {
         //region testing
         level1.render(renderer, MATERIAL_ZOOM, MATERIAL_ZOOM); // render level1 (including map)
 
-        for (int i = 0; i < gameObjects.size(); i++ ) {
-            if (! (gameObjects.get(i) instanceof Enemy))
-                gameObjects.get(i).render(renderer,PLAYER_ZOOM,PLAYER_ZOOM);
-            else {
-                gameObjects.get(i).render(renderer,MATERIAL_ZOOM,MATERIAL_ZOOM);
-            }
-        }
 
-        //Render bomb list
-        if (!player.getBombs().isEmpty()) {
-            for (int i = 0; i < player.getBombs().size(); i++) {
-                player.getBombs().get(i).render(renderer, MATERIAL_ZOOM, MATERIAL_ZOOM);
-            }
-        }
 
         //endregion
 
@@ -189,11 +158,5 @@ public class Game extends JFrame implements Runnable {
         return level1;
     }
 
-    public ArrayList<GameObject> getGameObjects() {
-        return gameObjects;
-    }
 
-    public void setGameObjects(ArrayList<GameObject> gameObjects) {
-        this.gameObjects = gameObjects;
-    }
 }
