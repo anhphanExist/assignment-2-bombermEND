@@ -60,8 +60,8 @@ public class Enemy extends Player {
         this.playerRectangle = new Rectangle(xLoc,yLoc,Level.PLAYER_SPRITE_SIZE,Level.PLAYER_SPRITE_SIZE);
         this.playerRectangle.generateGraphic(1, 0xFF00FF90);
 
-        this.xCollisionOffset = 20;
-        this.yCollisionOffset = 20;
+        this.xCollisionOffset = 10;
+        this.yCollisionOffset = 10;
 
         // Init collisionCheckRectangle and generate graphic, size = 16 * 3 / 2
         this.collisionCheckRectangle = new Rectangle(xLoc,yLoc, this.playerRectangle.w * 3 / 2,this.playerRectangle.h * 3 / 2);
