@@ -69,8 +69,6 @@ public class Game extends JFrame implements Runnable {
     }
 
 
-
-
     /**
      * update method
      */

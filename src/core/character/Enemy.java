@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Enemy extends Player {
     private int directCounting = 0;
-    private int enemySpeed = 5;
+    private int enemySpeed = 15;
     private int enemyType = 0;
 
     /**
@@ -79,7 +79,7 @@ public class Enemy extends Player {
         collisionCheckRectangle.y = playerRectangle.y;
 
         //Set new direction - random every 4 * 60 counting
-        if (directCounting == 240) {
+        if (directCounting == 45) {
             directCounting = 0;
             Random random = new Random();
             newDirection = random.nextInt(4);
@@ -91,7 +91,6 @@ public class Enemy extends Player {
         //Moving base on direction
         switch (this.direction) {
             case 1:
-
                 isMove = true;
                 collisionCheckRectangle.x += enemySpeed;
                 break;

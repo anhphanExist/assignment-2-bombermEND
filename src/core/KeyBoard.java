@@ -57,6 +57,6 @@ public class KeyBoard implements KeyListener, FocusListener {
         return keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT];
     }
 
-    public boolean space() {return  keys[KeyEvent.VK_SPACE];}
+    public boolean spacePress() {return  keys[KeyEvent.VK_SPACE];}
 
 }

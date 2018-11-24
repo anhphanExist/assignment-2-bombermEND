@@ -117,7 +117,7 @@ public class Player implements GameObject{
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         renderer.renderSprite(animatedSprite, playerRectangle.x, playerRectangle.y, xZoom, yZoom);
 
-        renderer.renderRectangle(collisionCheckRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
+        //renderer.renderRectangle(collisionCheckRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
     }
 
     @Override
@@ -189,7 +189,7 @@ public class Player implements GameObject{
         movingWithCam(game.getRenderer().getCamera());
 
         //Release the bomb
-        if (keyBoard.space() && currentNumBom < bomLimit) {
+        if ( keyBoard.spacePress() &&  currentNumBom < bomLimit) {
             Bomb bomb = new Bomb(game.getBombSheet(), this);
 
             bombs.add(bomb);

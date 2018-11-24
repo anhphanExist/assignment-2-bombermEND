@@ -15,10 +15,12 @@ public class Bomb implements GameObject {
     private Player player;
     private int speed = 20;
     private int counter;
+    private SpriteSheet sheet;
 
     public Bomb(SpriteSheet sheet, Player player) {
         //Loading the player who release the bomb
         this.player = player;
+        this.sheet = sheet;
 
         //Create bunch of rectangle saving bomb location
         Rectangle[] spritePos = new Rectangle[4];
@@ -40,6 +42,12 @@ public class Bomb implements GameObject {
     @Override
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         renderer.renderSprite(animatedSprite, bombRectangle.x, bombRectangle.y, 4,4);
+
+        //Spawning the flames
+        if (counter >= speed * 3) {
+            Explosion explosion = new Explosion(this);
+            explosion.render(renderer, 4, 4);
+        }
     }
 
     @Override
@@ -51,12 +59,20 @@ public class Bomb implements GameObject {
             //Blowing the bomb
             ArrayList<Bomb> temporaryList = player.getBombs();
 
+            this.player.setCurrentNumBom(this.player.getCurrentNumBom() - 1);
+
             temporaryList.remove(this);
 
             player.setBombs(temporaryList);
-
-            this.player.setCurrentNumBom(this.player.getCurrentNumBom() - 1);
         }
 
+    }
+
+    public SpriteSheet getSheet() {
+        return sheet;
+    }
+
+    public Rectangle getBombRectangle() {
+        return bombRectangle;
     }
 }
