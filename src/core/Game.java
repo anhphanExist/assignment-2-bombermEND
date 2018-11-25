@@ -1,6 +1,9 @@
 package core;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 
 import java.awt.*;
@@ -65,7 +68,6 @@ public class Game extends JFrame implements Runnable {
         //region testing
         level1 = new Level(); // add level1
         //endregion
-
     }
 
 
@@ -140,6 +142,25 @@ public class Game extends JFrame implements Runnable {
             return null;
         }
     }
+
+    /**
+     * play sound method
+     * @param path of the file
+     */
+    public static synchronized void playSound(final String path){
+        new Thread(() -> {
+            try {
+                Clip clip = AudioSystem.getClip();
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(Game.class.getResourceAsStream(path));
+                clip.open(inputStream);
+                clip.start();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
     public KeyBoard getKeyBoard() {
         return keyBoard;
     }

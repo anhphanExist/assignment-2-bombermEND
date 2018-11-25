@@ -77,6 +77,9 @@ public class Player implements GameObject{
 
         animatedSprite = constructSprite();
 
+        //While moving adding sound for character
+        animatedSprite.setPlaySound(true, "soundFolder/Move.wav") ;
+
         updateDirection();
         // Init player rectangle, sprite size = 32
         playerRectangle = new Rectangle(Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE,Level.PLAYER_SPRITE_SIZE,Level.PLAYER_SPRITE_SIZE);
@@ -183,6 +186,8 @@ public class Player implements GameObject{
             }
             // Update animated sprite
             animatedSprite.update(game);
+
+
         }
 
         // moving camera
@@ -194,7 +199,7 @@ public class Player implements GameObject{
 
             bombs.add(bomb);
 
-            currentNumBom++;
+            currentNumBom ++;
         }
     }
 

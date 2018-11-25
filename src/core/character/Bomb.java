@@ -29,7 +29,7 @@ public class Bomb implements GameObject {
         for (int i = 0; i < spritePos.length; i++) {
             spritePos[i] = new Rectangle(12 * 16, (i+2) * 16, 16, 16);
         }
-        spritePos[3] = new Rectangle(15*16 , 5 * 16, 16, 16);
+        spritePos[3] = new Rectangle(2*16 , 5 * 16, 16, 16);
 
         //Construct animate sprite for bomb
         animatedSprite = new AnimatedSprite(sheet, spritePos, speed);
@@ -64,6 +64,8 @@ public class Bomb implements GameObject {
             temporaryList.remove(this);
 
             player.setBombs(temporaryList);
+
+            Game.playSound("soundFolder/BombSound.wav");
         }
 
     }

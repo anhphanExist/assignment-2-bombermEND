@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Enemy extends Player {
     private int directCounting = 0;
-    private int enemySpeed = 15;
+    private int enemySpeed = 5;
     private int enemyType = 0;
 
     /**

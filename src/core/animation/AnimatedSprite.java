@@ -12,6 +12,8 @@ public class AnimatedSprite extends Sprite implements GameObject {
     private int speed;
     private int counter = 0;
     private int startSprite = 0, endSprite;
+    private boolean playSound;
+    private String soundPath;
 
 
     public AnimatedSprite(SpriteSheet sheet, Rectangle[] positions,int speed) {
@@ -62,6 +64,11 @@ public class AnimatedSprite extends Sprite implements GameObject {
     @Override
     public void update(Game game) {
         counter++;
+
+        if (playSound && counter % speed == 0) {
+            Game.playSound("soundFolder/Move.wav");
+        }
+
         if (counter >= speed) {
             counter = 0;
             incrementSprite();
@@ -85,5 +92,10 @@ public class AnimatedSprite extends Sprite implements GameObject {
 
     public int[] getPixels() {
         return sprites[currentSprite].getPixels();
+    }
+
+    public void setPlaySound(boolean playSound, String soundPath) {
+        this.playSound = playSound;
+        this.soundPath = soundPath;
     }
 }
