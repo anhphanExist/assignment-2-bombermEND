@@ -1,12 +1,12 @@
 package core.Level;
 
 import core.Game;
+import core.Level.Map.Map;
+import core.Level.Map.Tile.Tiles;
 import core.RenderHandler;
 import core.animation.SpriteSheet;
-import core.character.Player;
 
 import java.io.File;
-import java.util.ArrayList;
 
 // The level have the maze we play
 public class Level {
@@ -14,9 +14,9 @@ public class Level {
     public static final int MATERIALS_SPRITE_SIZE = 16;
     public static final int PLAYER_SPRITE_SIZE = 32;
 
-    private static final String LEVEL1_PATH = "src/core/Level/level1.txt";
+    private static final String LEVEL1_PATH = "src/core/Level/Map/level1.txt";
     private static final String MATERIALS_PATH = "imageFolder/materials.png";
-    private static final String TILES_PATH = "src/core/Level/tiles.txt";
+    private static final String TILES_PATH = "src/core/Level/Map/Tile/tiles.txt";
 
     private Game game;
 

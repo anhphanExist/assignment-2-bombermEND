@@ -1,4 +1,4 @@
-package core.Level;
+package core.Level.Map.Tile;
 
 import core.RenderHandler;
 import core.animation.SpriteSheet;

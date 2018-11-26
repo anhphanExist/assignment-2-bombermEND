@@ -1,4 +1,4 @@
-package core.Level;
+package core.Level.Map;
 
 // the mapped sprite type in the map
 class MappedTile {

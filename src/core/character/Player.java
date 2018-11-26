@@ -120,7 +120,7 @@ public class Player implements GameObject{
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         renderer.renderSprite(animatedSprite, playerRectangle.x, playerRectangle.y, xZoom, yZoom);
 
-        //renderer.renderRectangle(collisionCheckRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
+//        renderer.renderRectangle(collisionCheckRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
     }
 
     @Override
@@ -177,7 +177,9 @@ public class Player implements GameObject{
             Rectangle xAxisCheck = new Rectangle(collisionCheckRectangle.x, playerRectangle.y + yCollisionOffset, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(xAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
                 if (!game.getLevel1().getMap().checkCollisionPlayerVsEnemy(xAxisCheck)) {
-                    playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
+                    if (!game.getLevel1().getMap().checkCollisionMobVsBrick(xAxisCheck)) {
+                        playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
+                    }
                 }
             }
 
@@ -186,7 +188,9 @@ public class Player implements GameObject{
             Rectangle yAxisCheck = new Rectangle(playerRectangle.x + xCollisionOffset, collisionCheckRectangle.y, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(yAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
                 if (!game.getLevel1().getMap().checkCollisionPlayerVsEnemy(yAxisCheck)) {
-                    playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+                    if (!game.getLevel1().getMap().checkCollisionMobVsBrick(yAxisCheck)) {
+                        playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+                    }
                 }
             }
 

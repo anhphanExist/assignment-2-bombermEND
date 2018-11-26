@@ -1,6 +1,8 @@
-package core.Level;
+package core.Level.Map;
 
 import core.Game;
+import core.Level.Level;
+import core.Level.Map.Tile.Tiles;
 import core.Rectangle;
 import core.RenderHandler;
 import core.animation.GameObject;
@@ -22,6 +24,7 @@ public class Map {
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
     private Player player = new Player(6);
     private ArrayList<Enemy> enemies = new ArrayList<>();
+    private ArrayList<Brick> bricks = new ArrayList<>();
 
     private File mapFile;
 
@@ -56,7 +59,10 @@ public class Map {
                             if (line.charAt(i) == '#') {
                                 mappedTiles.add(new MappedTile(Tiles.WALL_ID, i, curRow, true));
                             } else if (line.charAt(i) == '*') {
-                                mappedTiles.add(new MappedTile(Tiles.BRICK_ID, i, curRow, true));
+                                mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
+                                Brick newBrick = new Brick(i, curRow, tileSet);
+                                bricks.add(newBrick);
+                                gameObjects.add(newBrick);
                             } else if (line.charAt(i) == 'f') {
                                 mappedTiles.add(new MappedTile(Tiles.ITEM_ID, i, curRow, true));
                             } else if (line.charAt(i) == 'p'){
@@ -67,7 +73,7 @@ public class Map {
                                 // At the location of gameObjects need to add grass as default
                                 mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
                                 // Set mapped enemy base on txt file
-                                Enemy enemy = new Enemy(i * Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE, curRow * Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE);
+                                Enemy enemy = new Enemy(i, curRow);
                                 enemy.setEnemyID(enemyID);
                                 enemyID++;
                                 enemies.add(enemy);
@@ -95,8 +101,8 @@ public class Map {
 
     public void render(RenderHandler renderer, int xZoom, int yZoom)
     {
-        int tileWidth = 16 * xZoom;
-        int tileHeight = 16 * yZoom;
+        int tileWidth = Level.MATERIALS_SPRITE_SIZE * xZoom;
+        int tileHeight = Level.MATERIALS_SPRITE_SIZE * yZoom;
 
 
         Rectangle camera = renderer.getCamera();
@@ -117,11 +123,18 @@ public class Map {
         }
 
         // Load game objects in the maze
+        for (int i = 0; i < gameObjects.size(); i++) {
+            if (gameObjects.get(i) instanceof Brick) {
+                gameObjects.get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
+            }
+        }
+
         for (int i = 0; i < gameObjects.size(); i++ ) {
-            if (! (gameObjects.get(i) instanceof Enemy))
-                gameObjects.get(i).render(renderer,Game.PLAYER_ZOOM,Game.PLAYER_ZOOM);
-            else {
-                gameObjects.get(i).render(renderer,Game.MATERIAL_ZOOM,Game.MATERIAL_ZOOM);
+            if (gameObjects.get(i) instanceof Enemy) {
+                gameObjects.get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
+            }
+            else if (gameObjects.get(i) instanceof Player) {
+                gameObjects.get(i).render(renderer, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
             }
         }
 
@@ -190,6 +203,15 @@ public class Map {
     public boolean checkCollisionPlayerVsEnemy(Rectangle rect) {
         for (Enemy curEnemy : enemies) {
             if (rect.intersects(curEnemy.getCollisionCheckRectangle())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkCollisionMobVsBrick(Rectangle rect) {
+        for (Brick curBrick : bricks) {
+            if (curBrick.getCollisionCheckRectangle().intersects(rect)) {
                 return true;
             }
         }
