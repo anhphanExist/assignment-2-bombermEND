@@ -1,6 +1,7 @@
 package core.character;
 
 import core.Game;
+import core.Level.Level;
 import core.Rectangle;
 import core.RenderHandler;
 import core.animation.AnimatedSprite;
@@ -10,15 +11,18 @@ import core.animation.SpriteSheet;
 import java.util.ArrayList;
 
 public class Bomb implements GameObject {
+    private Game game;
     private AnimatedSprite animatedSprite;
     private Rectangle bombRectangle;
+    private Rectangle collisionCheckRectangle;
     private Player player;
     private int speed = 20;
     private int counter;
     private SpriteSheet sheet;
 
-    public Bomb(SpriteSheet sheet, Player player) {
+    public Bomb(Game game, SpriteSheet sheet, Player player) {
         //Loading the player who release the bomb
+        this.game = game;
         this.player = player;
         this.sheet = sheet;
 
@@ -35,7 +39,8 @@ public class Bomb implements GameObject {
         animatedSprite = new AnimatedSprite(sheet, spritePos, speed);
 
         //Generate bomb rectangle
-        bombRectangle = new Rectangle(player.getPlayerRectangle().x, player.getPlayerRectangle().y, 16, 16);
+        bombRectangle = new Rectangle(player.getPlayerRectangle().x, player.getPlayerRectangle().y, Level.PLAYER_SPRITE_SIZE, Level.PLAYER_SPRITE_SIZE);
+        collisionCheckRectangle = new Rectangle(bombRectangle.x, bombRectangle.y, bombRectangle.w * 3 / 2, bombRectangle.h * 3 / 2);
 
     }
 
@@ -45,7 +50,7 @@ public class Bomb implements GameObject {
 
         //Spawning the flames
         if (counter >= speed * 3) {
-            Explosion explosion = new Explosion(this);
+            Explosion explosion = new Explosion(game,this);
             explosion.render(renderer, 4, 4);
         }
     }
@@ -76,5 +81,9 @@ public class Bomb implements GameObject {
 
     public Rectangle getBombRectangle() {
         return bombRectangle;
+    }
+
+    public Rectangle getCollisionCheckRectangle() {
+        return collisionCheckRectangle;
     }
 }

@@ -6,6 +6,7 @@ import core.Level.Map.Tile.Tiles;
 import core.Rectangle;
 import core.RenderHandler;
 import core.animation.GameObject;
+import core.character.Bomb;
 import core.character.Enemy.Enemy;
 import core.character.Enemy.Ghost;
 import core.character.Enemy.Water;
@@ -238,6 +239,15 @@ public class Map {
     public boolean checkCollisionEnemyVsEnemy(Enemy thisEnemy, Rectangle rect) {
         for (Enemy curEnemy : enemies) {
             if (rect.intersects(curEnemy.getCollisionCheckRectangle()) && curEnemy.getEnemyID() != thisEnemy.getEnemyID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkCollisionEnemyVsBomb(Enemy thisEnemy, Rectangle rect) {
+        for (Bomb curBomb : player.getBombs()) {
+            if (rect.intersects(curBomb.getCollisionCheckRectangle())) {
                 return true;
             }
         }

@@ -196,8 +196,6 @@ public class Player implements GameObject{
 
 
 
-
-
             // Update animated sprite
             animatedSprite.update(game);
 
@@ -209,7 +207,7 @@ public class Player implements GameObject{
 
         //Release the bomb
         if ( keyBoard.spacePress() &&  currentNumBom < bomLimit) {
-            Bomb bomb = new Bomb(game.getBombSheet(), this);
+            Bomb bomb = new Bomb(game, game.getBombSheet(), this);
 
             bombs.add(bomb);
 

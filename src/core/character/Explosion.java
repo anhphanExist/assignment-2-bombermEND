@@ -7,12 +7,14 @@ import core.animation.GameObject;
 import core.animation.Sprite;
 
 public class Explosion implements GameObject {
+    private Game game;
     private Bomb bomb;
     private Sprite[] sprites = new Sprite[4]; //Sprite of flames
     private Rectangle[] rectangles = new Rectangle[4];//flame saving location rectangles on sheet
     private Rectangle[] flameLocation = new Rectangle[4]; //array saving saving location rectangles on map
 
-    public Explosion(Bomb bomb) {
+    public Explosion(Game game, Bomb bomb) {
+        this.game = game;
         this.bomb = bomb;
 
         rectangles[0] = new Rectangle(3 * 16, 5 * 16, 16, 16);//Position of right flame
@@ -30,18 +32,28 @@ public class Explosion implements GameObject {
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         for (int i = 0; i < sprites.length; i++) {
             if (i < 2) {
-                renderer.renderSprite(sprites[i], bomb.getBombRectangle().x - (i * 2 -1) * 16 * Game.MATERIAL_ZOOM,
-                        bomb.getBombRectangle().y, xZoom, yZoom);
-                flameLocation[i] = new Rectangle(bomb.getBombRectangle().x - (i * 2 -1) * 16 * Game.MATERIAL_ZOOM,
-                        bomb.getBombRectangle().y, 16, 16);
+
+                flameLocation[i] = new Rectangle(bomb.getBombRectangle().x - (i * 2 -1) * 16 * Game.MATERIAL_ZOOM + 16,
+                        bomb.getBombRectangle().y + 16, 10, 10);
+                flameLocation[i].generateGraphic(2, 0xFF00FF90);
+                renderer.renderRectangle(flameLocation[i], xZoom, yZoom);
+                if (!game.getLevel1().getMap().checkCollision(flameLocation[i], xZoom, yZoom)) {
+                    renderer.renderSprite(sprites[i], bomb.getBombRectangle().x - (i * 2 - 1) * 16 * Game.MATERIAL_ZOOM,
+                            bomb.getBombRectangle().y, xZoom, yZoom);
+                }
             }
 
             else {
                 int k = i % 2;
-                renderer.renderSprite(sprites[i], bomb.getBombRectangle().x,bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM,
-                        xZoom, yZoom );
-                flameLocation[i] = new Rectangle(bomb.getBombRectangle().x,
-                        bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM, 16,16);
+
+                flameLocation[i] = new Rectangle(bomb.getBombRectangle().x + 16,
+                        bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM + 16, 10,10);
+                flameLocation[i].generateGraphic(2, 0xFF00FF90);
+                renderer.renderRectangle(flameLocation[i], xZoom, yZoom);
+                if (!game.getLevel1().getMap().checkCollision(flameLocation[i], xZoom, yZoom)) {
+                    renderer.renderSprite(sprites[i], bomb.getBombRectangle().x, bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM,
+                            xZoom, yZoom);
+                }
             }
 
         }

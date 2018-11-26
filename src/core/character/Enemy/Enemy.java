@@ -104,7 +104,9 @@ public class Enemy extends Player {
             if (!game.getLevel1().getMap().checkCollisionEnemyVsPlayer(yAxisCheck)) {
                 if (!game.getLevel1().getMap().checkCollisionEnemyVsEnemy(this, yAxisCheck)) {
                     if (!game.getLevel1().getMap().checkCollisionMobVsBrick(yAxisCheck)) {
-                        playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+                        if (!game.getLevel1().getMap().checkCollisionEnemyVsBomb(this, yAxisCheck)) {
+                            playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+                        }
                     }
                 }
             }
