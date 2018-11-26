@@ -11,7 +11,7 @@ import java.util.Random;
 public class Enemy extends Player {
     private int directCounting = 0;
     private int enemySpeed = 5;
-    private int enemyType = 0;
+    private int enemyID = 0;
 
     /**
      * construct sprites of character from the sheet
@@ -131,18 +131,34 @@ public class Enemy extends Player {
             // check x collision
             Rectangle xAxisCheck = new Rectangle(collisionCheckRectangle.x, playerRectangle.y + yCollisionOffset, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(xAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
-                playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
+                if (!game.getLevel1().getMap().checkCollisionEnemyVsPlayer(xAxisCheck)) {
+                    if (!game.getLevel1().getMap().checkCollisionEnemyVsEnemy(this, xAxisCheck)) {
+                        playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
+                    }
+                }
             }
 
             // check y collision
             Rectangle yAxisCheck = new Rectangle(playerRectangle.x + xCollisionOffset, collisionCheckRectangle.y, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(yAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
-                playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+                if (!game.getLevel1().getMap().checkCollisionEnemyVsPlayer(yAxisCheck)) {
+                    if (!game.getLevel1().getMap().checkCollisionEnemyVsEnemy(this, yAxisCheck)) {
+                        playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+                    }
+                }
             }
 
 
             this.animatedSprite.update(game);
 
         }
+    }
+
+    public int getEnemyID() {
+        return enemyID;
+    }
+
+    public void setEnemyID(int enemyID) {
+        this.enemyID = enemyID;
     }
 }

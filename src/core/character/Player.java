@@ -176,14 +176,24 @@ public class Player implements GameObject{
             // check x collision
             Rectangle xAxisCheck = new Rectangle(collisionCheckRectangle.x, playerRectangle.y + yCollisionOffset, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(xAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
-                playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
+                if (!game.getLevel1().getMap().checkCollisionPlayerVsEnemy(xAxisCheck)) {
+                    playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
+                }
             }
+
 
             // check y collision
             Rectangle yAxisCheck = new Rectangle(playerRectangle.x + xCollisionOffset, collisionCheckRectangle.y, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(yAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
-                playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+                if (!game.getLevel1().getMap().checkCollisionPlayerVsEnemy(yAxisCheck)) {
+                    playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
+                }
             }
+
+
+
+
+
             // Update animated sprite
             animatedSprite.update(game);
 

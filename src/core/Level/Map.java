@@ -32,6 +32,7 @@ public class Map {
         int rows = 0;
         int cols = 0;
         int curRow = 0;
+        int enemyID = 0;
         try
         {
             Scanner scanner = new Scanner(mapFile);
@@ -67,6 +68,8 @@ public class Map {
                                 mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
                                 // Set mapped enemy base on txt file
                                 Enemy enemy = new Enemy(i * Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE, curRow * Game.MATERIAL_ZOOM * Level.MATERIALS_SPRITE_SIZE);
+                                enemy.setEnemyID(enemyID);
+                                enemyID++;
                                 enemies.add(enemy);
                                 gameObjects.add(enemy);
                             } else {
@@ -168,7 +171,7 @@ public class Map {
         for (int x = topLeftX; x < bottomRightX; x++) {
             for (int y = topLeftY; y < bottomRightY; y++) {
                 MappedTile tile = getMappedTile(x, y);
-                Enemy enemy = getEnemyAt(x * tileWidth, y * tileHeight);
+//                Enemy enemy = getEnemyAt(x * tileWidth, y * tileHeight);
                 if (tile != null && tile.collidable) {
                     Rectangle tileRectangle = new Rectangle(tile.x * tileWidth, tile.y * tileHeight, tileWidth, tileHeight);
                     if (tileRectangle.intersects(rect))
@@ -179,6 +182,31 @@ public class Map {
 //                        return true;
 //                    }
 //                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkCollisionPlayerVsEnemy(Rectangle rect) {
+        for (Enemy curEnemy : enemies) {
+            if (rect.intersects(curEnemy.getCollisionCheckRectangle())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkCollisionEnemyVsPlayer(Rectangle rect) {
+        if (rect.intersects(player.getCollisionCheckRectangle())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkCollisionEnemyVsEnemy(Enemy thisEnemy, Rectangle rect) {
+        for (Enemy curEnemy : enemies) {
+            if (rect.intersects(curEnemy.getCollisionCheckRectangle()) && curEnemy.getEnemyID() != thisEnemy.getEnemyID()) {
+                return true;
             }
         }
         return false;
@@ -197,7 +225,6 @@ public class Map {
                 return curMappedTileInMap;
             }
         }
-
         return null;
     }
 
