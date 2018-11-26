@@ -162,6 +162,8 @@ public class Map {
      * @param game
      */
     public void update(Game game) {
+
+
         for (int i = 0; i < gameObjects.size(); i++ ) {
             gameObjects.get(i).update(game);
         }
@@ -248,6 +250,15 @@ public class Map {
     public boolean checkCollisionEnemyVsBomb(Enemy thisEnemy, Rectangle rect) {
         for (Bomb curBomb : player.getBombs()) {
             if (rect.intersects(curBomb.getCollisionCheckRectangle())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkCollisionFlameVsBrick(Rectangle rect) {
+        for (Brick curBrick : bricks) {
+            if (rect.intersects(curBrick.getCollisionCheckRectangle())) {
                 return true;
             }
         }
