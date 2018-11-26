@@ -6,13 +6,16 @@ import core.Level.Map.Tile.Tiles;
 import core.Rectangle;
 import core.RenderHandler;
 import core.animation.GameObject;
-import core.character.Enemy;
+import core.character.Enemy.Enemy;
+import core.character.Enemy.Ghost;
+import core.character.Enemy.Water;
 import core.character.Player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 // The Maze we play
 public class Map {
@@ -73,7 +76,14 @@ public class Map {
                                 // At the location of gameObjects need to add grass as default
                                 mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
                                 // Set mapped enemy base on txt file
-                                Enemy enemy = new Enemy(i, curRow);
+                                Enemy enemy;
+                                int k = ThreadLocalRandom.current().nextInt(1,3);
+                                if (k % 2 == 0) {
+                                    enemy = new Ghost(i, curRow);
+                                }
+                                else {
+                                    enemy = new Water(i, curRow);
+                                }
                                 enemy.setEnemyID(enemyID);
                                 enemyID++;
                                 enemies.add(enemy);

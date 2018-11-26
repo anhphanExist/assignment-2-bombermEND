@@ -31,7 +31,7 @@ public class Brick implements GameObject {
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         tiles.renderTile(Tiles.BRICK_ID, renderer, brickRectangle.x, brickRectangle.y, xZoom, yZoom);
 
-        renderer.renderRectangle(collisionCheckRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
+        //renderer.renderRectangle(collisionCheckRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
     }
 
     @Override
