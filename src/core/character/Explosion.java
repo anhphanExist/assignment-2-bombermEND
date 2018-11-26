@@ -9,7 +9,8 @@ import core.animation.Sprite;
 public class Explosion implements GameObject {
     private Bomb bomb;
     private Sprite[] sprites = new Sprite[4]; //Sprite of flames
-    private Rectangle[] rectangles = new Rectangle[4];//flame saving location rectangles
+    private Rectangle[] rectangles = new Rectangle[4];//flame saving location rectangles on sheet
+    private Rectangle[] flameLocation = new Rectangle[4]; //array saving saving location rectangles on map
 
     public Explosion(Bomb bomb) {
         this.bomb = bomb;
@@ -29,14 +30,18 @@ public class Explosion implements GameObject {
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         for (int i = 0; i < sprites.length; i++) {
             if (i < 2) {
-                renderer.renderSprite(sprites[i], bomb.getBombRectangle().x - (i * 2 -1) * 16 * 4,
+                renderer.renderSprite(sprites[i], bomb.getBombRectangle().x - (i * 2 -1) * 16 * Game.MATERIAL_ZOOM,
                         bomb.getBombRectangle().y, xZoom, yZoom);
+                flameLocation[i] = new Rectangle(bomb.getBombRectangle().x - (i * 2 -1) * 16 * Game.MATERIAL_ZOOM,
+                        bomb.getBombRectangle().y, 16, 16);
             }
 
             else {
                 int k = i % 2;
-                renderer.renderSprite(sprites[i], bomb.getBombRectangle().x,bomb.getBombRectangle().y - (k * 2 - 1) * 16 * 4,
+                renderer.renderSprite(sprites[i], bomb.getBombRectangle().x,bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM,
                         xZoom, yZoom );
+                flameLocation[i] = new Rectangle(bomb.getBombRectangle().x,
+                        bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM, 16,16);
             }
 
         }
