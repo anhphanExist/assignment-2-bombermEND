@@ -66,7 +66,7 @@ public class AnimatedSprite extends Sprite implements GameObject {
         counter++;
 
         if (playSound && counter % speed == 0) {
-            Game.playSound("soundFolder/Move.wav");
+            Game.playSound("soundFolder/Move.wav", false);
         }
 
         if (counter >= speed) {

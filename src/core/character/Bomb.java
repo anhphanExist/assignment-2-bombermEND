@@ -71,7 +71,7 @@ public class Bomb implements GameObject {
 
             player.setBombs(temporaryList);
 
-            Game.playSound("soundFolder/BombSound.wav");
+            Game.playSound("soundFolder/BombSound.wav", false);
         }
 
     }

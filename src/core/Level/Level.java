@@ -38,7 +38,7 @@ public class Level {
             map = new Map(new File(LEVEL1_PATH), tiles);
 
             //play sound
-            Game.playSound("soundFolder/Super Bomberman - Area 1 music.wav");
+            Game.playSound("soundFolder/Super Bomberman - Area 1 music.wav", true);
         }
         catch (NullPointerException e) {
             System.out.println("Load level failed");

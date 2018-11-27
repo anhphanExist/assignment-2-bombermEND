@@ -147,13 +147,16 @@ public class Game extends JFrame implements Runnable {
      * play sound method
      * @param path of the file
      */
-    public static synchronized void playSound(final String path){
+    public static synchronized void playSound(final String path , boolean isRepeat){
         new Thread(() -> {
             try {
                 Clip clip = AudioSystem.getClip();
                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(Game.class.getResourceAsStream(path));
                 clip.open(inputStream);
                 clip.start();
+                if (isRepeat){
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();

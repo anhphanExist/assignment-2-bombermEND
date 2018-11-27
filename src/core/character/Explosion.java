@@ -46,7 +46,7 @@ public class Explosion implements GameObject {
                 flameLocation[i] = new Rectangle(bomb.getBombRectangle().x - (i * 2 -1) * 16 * Game.MATERIAL_ZOOM + 16,
                         bomb.getBombRectangle().y + 16, 16, 16);
                 flameLocation[i].generateGraphic(2, 0xFF00FF90);
-                renderer.renderRectangle(flameLocation[i], xZoom, yZoom);
+                //renderer.renderRectangle(flameLocation[i], xZoom, yZoom);
 
                 // Remove brick if collide
                 brickCollision(flameLocation[i]);
@@ -66,7 +66,7 @@ public class Explosion implements GameObject {
                 flameLocation[i] = new Rectangle(bomb.getBombRectangle().x + 16,
                         bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM + 16, 16,16);
                 flameLocation[i].generateGraphic(2, 0xFF00FF90);
-                renderer.renderRectangle(flameLocation[i], xZoom, yZoom);
+                //renderer.renderRectangle(flameLocation[i], xZoom, yZoom);
 
                 // Remove brick if collide
                 brickCollision(flameLocation[i]);
