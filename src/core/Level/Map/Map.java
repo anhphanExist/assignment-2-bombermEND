@@ -305,5 +305,11 @@ public class Map {
         this.gameObjects = gameObjects;
     }
 
+    public ArrayList<Brick> getBricks() {
+        return bricks;
+    }
 
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
 }

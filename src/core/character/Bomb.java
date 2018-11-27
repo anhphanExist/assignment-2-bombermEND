@@ -2,6 +2,7 @@ package core.character;
 
 import core.Game;
 import core.Level.Level;
+import core.Level.Map.Brick;
 import core.Rectangle;
 import core.RenderHandler;
 import core.animation.AnimatedSprite;

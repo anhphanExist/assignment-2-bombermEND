@@ -6,7 +6,8 @@ import core.*;
 
 import java.util.ArrayList;
 
-public class Player implements GameObject{
+public class Player implements GameObject {
+
     protected Rectangle playerRectangle;
     protected Rectangle collisionCheckRectangle;
 
