@@ -44,7 +44,7 @@ public class Explosion implements GameObject {
             if (i < 2) {
 
                 flameLocation[i] = new Rectangle(bomb.getBombRectangle().x - (i * 2 -1) * 16 * Game.MATERIAL_ZOOM + 16,
-                        bomb.getBombRectangle().y + 16, 10, 10);
+                        bomb.getBombRectangle().y + 16, 16, 16);
                 flameLocation[i].generateGraphic(2, 0xFF00FF90);
                 renderer.renderRectangle(flameLocation[i], xZoom, yZoom);
 
@@ -64,7 +64,7 @@ public class Explosion implements GameObject {
                 int k = i % 2;
 
                 flameLocation[i] = new Rectangle(bomb.getBombRectangle().x + 16,
-                        bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM + 16, 10,10);
+                        bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM + 16, 16,16);
                 flameLocation[i].generateGraphic(2, 0xFF00FF90);
                 renderer.renderRectangle(flameLocation[i], xZoom, yZoom);
 
