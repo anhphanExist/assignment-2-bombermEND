@@ -23,7 +23,7 @@ public class Player implements GameObject {
 
     //Bomb list
     private ArrayList<Bomb> bombs = new ArrayList<>();
-    private int bomLimit = 1;
+    private int bomLimit = 100;
     private int currentNumBom = 0;
 
 
@@ -209,10 +209,16 @@ public class Player implements GameObject {
         //Release the bomb
         if ( keyBoard.spacePress() &&  currentNumBom < bomLimit) {
             Bomb bomb = new Bomb(game, game.getBombSheet(), this);
-
-            bombs.add(bomb);
-
-            currentNumBom ++;
+            boolean isBombCollideWithBombs = false;
+            for (Bomb checkBomb : bombs) {
+                if (checkBomb.getCollisionCheckRectangle().intersects(bomb.getCollisionCheckRectangle())) {
+                    isBombCollideWithBombs = true;
+                }
+            }
+            if (!isBombCollideWithBombs) {
+                bombs.add(bomb);
+                currentNumBom++;
+            }
         }
     }
 

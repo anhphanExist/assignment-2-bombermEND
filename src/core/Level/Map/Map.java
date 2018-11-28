@@ -255,16 +255,7 @@ public class Map {
         }
         return false;
     }
-
-    public boolean checkCollisionFlameVsBrick(Rectangle rect) {
-        for (Brick curBrick : bricks) {
-            if (rect.intersects(curBrick.getCollisionCheckRectangle())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    
     /**
      * get type of Tile at coordinates x,y in the map
      * @param x
