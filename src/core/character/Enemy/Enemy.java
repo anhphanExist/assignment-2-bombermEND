@@ -3,6 +3,7 @@ package core.character.Enemy;
 import core.Game;
 import core.Level.Level;
 import core.Rectangle;
+import core.RenderHandler;
 import core.animation.AnimatedSprite;
 import core.animation.SpriteSheet;
 import core.character.Player;
@@ -113,6 +114,13 @@ public class Enemy extends Player {
                 }
             }
         }
+    }
+
+    @Override
+    public void render(RenderHandler renderer, int xZoom, int yZoom) {
+        renderer.renderSprite(animatedSprite, playerRectangle.x, playerRectangle.y, xZoom, yZoom);
+
+//        renderer.renderRectangle(playerRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
     }
 
     public int getEnemyID() {
