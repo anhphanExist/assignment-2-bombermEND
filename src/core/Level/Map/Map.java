@@ -30,6 +30,7 @@ public class Map {
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Brick> bricks = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
+    private Door door;
 
     private File mapFile;
 
@@ -76,8 +77,15 @@ public class Map {
                                 Brick newBrick = new Brick(i, curRow, tileSet);
                                 bricks.add(newBrick);
                                 gameObjects.add(newBrick);
-
-                            } else if (line.charAt(i) == 'p'){
+                            } else if(line.charAt(i) == 'd') {
+                                // Add door
+                                mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
+                                door = new Door(i, curRow, tileSet);
+                                gameObjects.add(door);
+                                Brick newBrick = new Brick(i, curRow, tileSet);
+                                bricks.add(newBrick);
+                                gameObjects.add(newBrick);
+                            } else if (line.charAt(i) == 'p') {
                                 // At the location of gameObject need to add grass as default
                                 mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
                                 gameObjects.add(player);
@@ -147,6 +155,9 @@ public class Map {
             if (gameObjects.get(i) instanceof Item) {
                 gameObjects.get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
             }
+            if (gameObjects.get(i) instanceof Door) {
+                gameObjects.get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
+            }
             if (gameObjects.get(i) instanceof Brick) {
                 gameObjects.get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
             }
@@ -174,7 +185,6 @@ public class Map {
      * @param game
      */
     public void update(Game game) {
-
 
         for (int i = 0; i < gameObjects.size(); i++ ) {
             gameObjects.get(i).update(game);
@@ -322,5 +332,9 @@ public class Map {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    public Door getDoor() {
+        return door;
     }
 }

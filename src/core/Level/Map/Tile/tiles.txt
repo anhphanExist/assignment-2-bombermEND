@@ -3,3 +3,4 @@ Grass-6-0-false
 Wall-5-0-true
 Brick-7-0-true
 BombItem-0-10-false
+Door-4-0-false

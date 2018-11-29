@@ -1,6 +1,7 @@
 package core.character;
 
 import core.Level.Level;
+import core.Level.Map.Door;
 import core.Level.Map.Item;
 import core.animation.*;
 import core.*;
@@ -8,6 +9,7 @@ import core.*;
 import java.util.ArrayList;
 
 public class Player implements GameObject {
+    private static final int BOMB_LIMIT = 10;
 
     protected Rectangle playerRectangle;
     protected Rectangle collisionCheckRectangle;
@@ -24,7 +26,7 @@ public class Player implements GameObject {
 
     //Bomb list
     private ArrayList<Bomb> bombs = new ArrayList<>();
-    private int bomLimit = 1;
+    private int bomLimit = BOMB_LIMIT;
     private int currentNumBom = 0;
 
     private int counter = 0;
@@ -182,25 +184,23 @@ public class Player implements GameObject {
             // check x collision
             Rectangle xAxisCheck = new Rectangle(collisionCheckRectangle.x, playerRectangle.y + yCollisionOffset, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(xAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
-                if (!game.getLevel1().getMap().checkCollisionPlayerVsEnemy(xAxisCheck)) {
-                    if (!game.getLevel1().getMap().checkCollisionMobVsBrick(xAxisCheck)) {
-                        playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
-                    }
+                if (!game.getLevel1().getMap().checkCollisionMobVsBrick(xAxisCheck)) {
+                    playerRectangle.x = collisionCheckRectangle.x - xCollisionOffset;
                 }
             }
-
 
             // check y collision
             Rectangle yAxisCheck = new Rectangle(playerRectangle.x + xCollisionOffset, collisionCheckRectangle.y, collisionCheckRectangle.w, collisionCheckRectangle.h);
             if (!game.getLevel1().getMap().checkCollision(yAxisCheck, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM)) {
-                if (!game.getLevel1().getMap().checkCollisionPlayerVsEnemy(yAxisCheck)) {
-                    if (!game.getLevel1().getMap().checkCollisionMobVsBrick(yAxisCheck)) {
-                        playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
-                    }
+                if (!game.getLevel1().getMap().checkCollisionMobVsBrick(yAxisCheck)) {
+                    playerRectangle.y = collisionCheckRectangle.y - yCollisionOffset;
                 }
             }
 
-
+            // check die when collide vs enemy
+            if (game.getLevel1().getMap().checkCollisionPlayerVsEnemy(collisionCheckRectangle)) {
+                game.setRunning(false);
+            }
 
             // Update animated sprite
             animatedSprite.update(game);
@@ -228,9 +228,10 @@ public class Player implements GameObject {
 
         handleCollisionVsItems(game);
         if (counter == speed * 300) {
-            bomLimit = 1;
+            bomLimit = BOMB_LIMIT;
             counter = 0;
         }
+        handleCollisionVsDoor(game);
     }
 
     /**
@@ -251,7 +252,7 @@ public class Player implements GameObject {
         ArrayList<GameObject> gameObjects = game.getLevel1().getMap().getGameObjects();
         while (itemsToRemoveID < items.size()) {
             if (items.get(itemsToRemoveID).getItemRectangle().intersects(this.playerRectangle)) {
-                bomLimit = 10;
+                bomLimit = BOMB_LIMIT * 10;
                 itemCollide = true;
                 break;
             }
@@ -261,6 +262,18 @@ public class Player implements GameObject {
             Item itemToRemove = items.get(itemsToRemoveID);
             items.remove(itemsToRemoveID);
             gameObjects.remove(itemToRemove);
+        }
+    }
+
+    private void handleCollisionVsDoor(Game game) {
+        Door door = game.getLevel1().getMap().getDoor();
+        Player player = game.getLevel1().getMap().getPlayer();
+        boolean doorCollide = false;
+        if (game.getLevel1().getMap().getEnemies().size() == 0 && player.getPlayerRectangle().intersects(door.getItemRectangle())) {
+            doorCollide = true;
+        }
+        if (doorCollide) {
+            game.setRunning(false);
         }
     }
 

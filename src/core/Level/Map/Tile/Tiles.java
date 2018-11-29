@@ -14,6 +14,7 @@ public class Tiles {
     public static final int WALL_ID = 1;
     public static final int BRICK_ID = 2;
     public static final int ITEM_ID = 3;
+    public static final int DOOR_ID = 4;
 
     private SpriteSheet spriteSheet;
     private ArrayList<Tile> tilesList = new ArrayList<>();

@@ -53,6 +53,7 @@ public class Explosion implements GameObject {
                 brickCollision(flameLocation[i]);
                 // Remove enemy if collide
                 enemyCollision(flameLocation[i]);
+                enemyCollision(flameLocation[4]);
 
                 // if no collision then render
                 if (!game.getLevel1().getMap().checkCollision(flameLocation[i], xZoom, yZoom)) {
@@ -60,6 +61,7 @@ public class Explosion implements GameObject {
                             bomb.getBombRectangle().y, xZoom, yZoom);
                     // End game if player collide
                     playerCollision(flameLocation[i]);
+                    playerCollision(flameLocation[4]);
                 }
             }
 
@@ -75,6 +77,7 @@ public class Explosion implements GameObject {
                 brickCollision(flameLocation[i]);
                 // Remove enemy if collide
                 enemyCollision(flameLocation[i]);
+                enemyCollision(flameLocation[4]);
 
                 // if no collision then render
                 if (!game.getLevel1().getMap().checkCollision(flameLocation[i], xZoom, yZoom)) {
@@ -82,6 +85,7 @@ public class Explosion implements GameObject {
                             xZoom, yZoom);
                     // End game if player collide
                     playerCollision(flameLocation[i]);
+                    playerCollision(flameLocation[4]);
                 }
             }
 
@@ -109,6 +113,10 @@ public class Explosion implements GameObject {
         }
     }
 
+    /**
+     * Remove enemy if flame burns enemy
+     * @param curFlameLocation
+     */
     private void enemyCollision(Rectangle curFlameLocation) {
         boolean enemyCollide = false;
         int j = 0;
