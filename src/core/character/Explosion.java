@@ -2,8 +2,10 @@ package core.character;
 
 import core.Game;
 import core.Level.Map.Brick;
+import core.Level.Map.Map;
 import core.Rectangle;
 import core.RenderHandler;
+import core.animation.DeathAnimation;
 import core.animation.GameObject;
 import core.animation.Sprite;
 import core.character.Enemy.Enemy;
@@ -129,6 +131,8 @@ public class Explosion implements GameObject {
         }
         if (enemyCollide) {
             Enemy enemyToRemove = enemies.get(j);
+            DeathAnimation deathAnimation = new DeathAnimation(enemyToRemove);
+            Map.deathAnimations.add(deathAnimation);
             enemies.remove(j);
             gameObjects.remove(enemyToRemove);
         }

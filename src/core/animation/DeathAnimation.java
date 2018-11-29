@@ -2,6 +2,7 @@ package core.animation;
 
 import core.Game;
 import core.Level.Level;
+import core.Level.Map.Map;
 import core.Rectangle;
 import core.RenderHandler;
 import core.character.Enemy.Enemy;
@@ -24,6 +25,7 @@ public class DeathAnimation implements GameObject{
 
         //Load from sheet
         for (int i = 0; i < deathSprites.length; i++) {
+            System.out.println(i);
             deathSprites[i] = new Rectangle(15 * Level.MATERIALS_SPRITE_SIZE, i * Level.MATERIALS_SPRITE_SIZE, Level.MATERIALS_SPRITE_SIZE, Level.MATERIALS_SPRITE_SIZE);
         }
 
@@ -32,7 +34,7 @@ public class DeathAnimation implements GameObject{
 
     @Override
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
-        renderer.renderSprite(animatedSprite, e.getPlayerRectangle().x, e.getPlayerRectangle().y,4 ,4);
+        renderer.renderSprite(animatedSprite, e.getPlayerRectangle().x, e.getPlayerRectangle().y,xZoom ,yZoom);
     }
 
     @Override
@@ -42,6 +44,7 @@ public class DeathAnimation implements GameObject{
 
         //Remove death animation method
         if (counter == speed * 3) {
+            Map.deathAnimations.remove(this);
         }
 
     }
