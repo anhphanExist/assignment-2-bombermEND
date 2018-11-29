@@ -319,4 +319,8 @@ public class Map {
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 }

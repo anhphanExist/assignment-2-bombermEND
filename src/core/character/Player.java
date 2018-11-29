@@ -1,6 +1,7 @@
 package core.character;
 
 import core.Level.Level;
+import core.Level.Map.Item;
 import core.animation.*;
 import core.*;
 
@@ -23,8 +24,10 @@ public class Player implements GameObject {
 
     //Bomb list
     private ArrayList<Bomb> bombs = new ArrayList<>();
-    private int bomLimit = 100;
+    private int bomLimit = 1;
     private int currentNumBom = 0;
+
+    private int counter = 0;
 
 
     // Collision offset
@@ -126,6 +129,8 @@ public class Player implements GameObject {
 
     @Override
     public void update(Game game) {
+        counter++;
+
         KeyBoard keyBoard = game.getKeyBoard();
         boolean isMove = false;
         int newDirection = direction;
@@ -220,6 +225,12 @@ public class Player implements GameObject {
                 currentNumBom++;
             }
         }
+
+        handleCollisionVsItems(game);
+        if (counter == speed * 300) {
+            bomLimit = 1;
+            counter = 0;
+        }
     }
 
     /**
@@ -231,6 +242,26 @@ public class Player implements GameObject {
         //Let player position at the center of the camera
         camera.x = playerRectangle.x - (camera.w / 2);
         camera.y = playerRectangle.y - (camera.h / 2);
+    }
+
+    private void handleCollisionVsItems(Game game) {
+        int itemsToRemoveID = 0;
+        boolean itemCollide = false;
+        ArrayList<Item> items = game.getLevel1().getMap().getItems();
+        ArrayList<GameObject> gameObjects = game.getLevel1().getMap().getGameObjects();
+        while (itemsToRemoveID < items.size()) {
+            if (items.get(itemsToRemoveID).getCollisionCheckRectangle().intersects(this.collisionCheckRectangle)) {
+                bomLimit = 10;
+                itemCollide = true;
+                break;
+            }
+            itemsToRemoveID++;
+        }
+        if(itemCollide) {
+            Item itemToRemove = items.get(itemsToRemoveID);
+            items.remove(itemsToRemoveID);
+            gameObjects.remove(itemToRemove);
+        }
     }
 
     public Rectangle getPlayerRectangle() {

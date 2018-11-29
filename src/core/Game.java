@@ -39,6 +39,7 @@ public class Game extends JFrame implements Runnable {
 
     //region testing
     private Level level1;
+    private boolean isRunning = false;
 
 
 
@@ -68,6 +69,7 @@ public class Game extends JFrame implements Runnable {
         //region testing
         level1 = new Level(); // add level1
         //endregion
+        isRunning = true;
     }
 
 
@@ -110,7 +112,7 @@ public class Game extends JFrame implements Runnable {
         double nanoSecondConversion = 1000000000.0 / 60; //60 frames per sec
         double changeInSeconds = 0;
 
-        while (true) {
+        while (isRunning) {
             long now = System.nanoTime();
 
             changeInSeconds += (now - lastTime) / nanoSecondConversion;
@@ -121,6 +123,10 @@ public class Game extends JFrame implements Runnable {
             render();
             lastTime = now;
         }
+
+        // Quit game
+        setVisible(false);
+        System.exit(0);
     }
 
     /**
@@ -180,5 +186,7 @@ public class Game extends JFrame implements Runnable {
         return level1;
     }
 
-
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
 }

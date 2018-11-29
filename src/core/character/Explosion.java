@@ -57,6 +57,8 @@ public class Explosion implements GameObject {
                 if (!game.getLevel1().getMap().checkCollision(flameLocation[i], xZoom, yZoom)) {
                     renderer.renderSprite(sprites[i], bomb.getBombRectangle().x - (i * 2 - 1) * 16 * Game.MATERIAL_ZOOM,
                             bomb.getBombRectangle().y, xZoom, yZoom);
+                    // End game if player collide
+                    playerCollision(flameLocation[i]);
                 }
             }
 
@@ -77,6 +79,8 @@ public class Explosion implements GameObject {
                 if (!game.getLevel1().getMap().checkCollision(flameLocation[i], xZoom, yZoom)) {
                     renderer.renderSprite(sprites[i], bomb.getBombRectangle().x, bomb.getBombRectangle().y - (k * 2 - 1) * 16 * Game.MATERIAL_ZOOM,
                             xZoom, yZoom);
+                    // End game if player collide
+                    playerCollision(flameLocation[i]);
                 }
             }
 
@@ -118,6 +122,13 @@ public class Explosion implements GameObject {
             Enemy enemyToRemove = enemies.get(j);
             enemies.remove(j);
             gameObjects.remove(enemyToRemove);
+        }
+    }
+
+    private void playerCollision(Rectangle curFlameLocation) {
+
+        if (curFlameLocation.intersects(game.getLevel1().getMap().getPlayer().getCollisionCheckRectangle())) {
+            game.setRunning(false);
         }
     }
 

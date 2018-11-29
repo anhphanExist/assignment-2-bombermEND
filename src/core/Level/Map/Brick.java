@@ -22,7 +22,7 @@ public class Brick implements GameObject {
         brickRectangle = new Rectangle(x * Level.MATERIALS_SPRITE_SIZE * Game.MATERIAL_ZOOM, y * Level.MATERIALS_SPRITE_SIZE * Game.MATERIAL_ZOOM, Level.PLAYER_SPRITE_SIZE, Level.PLAYER_SPRITE_SIZE);
         brickRectangle.generateGraphic(1,0xFF00FF90);
 
-        collisionCheckRectangle = new Rectangle(brickRectangle.x, brickRectangle.y, brickRectangle.w * 3/2 + 10, brickRectangle.h * 3/2 + 18);
+        collisionCheckRectangle = new Rectangle(brickRectangle.x, brickRectangle.y, brickRectangle.w * 3/2 + 12, brickRectangle.h * 3/2 + 18);
         collisionCheckRectangle.generateGraphic(1,0xFF00FF90);
     }
 

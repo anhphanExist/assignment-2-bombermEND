@@ -14,9 +14,8 @@ public class Item implements GameObject {
 
     private Tiles tiles;
 
-    public Item(int x, int y, Tiles tile, Game game) {
+    public Item(int x, int y, Tiles tiles) {
         this.tiles = tiles;
-        this.game = game;
         itemRectangle = new Rectangle(x * Level.MATERIALS_SPRITE_SIZE * Game.MATERIAL_ZOOM, y * Level.MATERIALS_SPRITE_SIZE * Game.MATERIAL_ZOOM, Level.PLAYER_SPRITE_SIZE, Level.PLAYER_SPRITE_SIZE);
         itemRectangle.generateGraphic(1, 0xFF00FF90);
         collisionCheckRectangle = new Rectangle(itemRectangle.x, itemRectangle.y, itemRectangle.w * 3 / 2, itemRectangle.h * 3 / 2);
