@@ -19,12 +19,14 @@ public class Item implements GameObject {
         itemRectangle = new Rectangle(x * Level.MATERIALS_SPRITE_SIZE * Game.MATERIAL_ZOOM, y * Level.MATERIALS_SPRITE_SIZE * Game.MATERIAL_ZOOM, Level.PLAYER_SPRITE_SIZE, Level.PLAYER_SPRITE_SIZE);
         itemRectangle.generateGraphic(1, 0xFF00FF90);
         collisionCheckRectangle = new Rectangle(itemRectangle.x, itemRectangle.y, itemRectangle.w * 3 / 2, itemRectangle.h * 3 / 2);
-        itemRectangle.generateGraphic(1, 0xFF00FF90);
+        collisionCheckRectangle.generateGraphic(1, 0xFF00FF90);
     }
 
     @Override
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         tiles.renderTile(Tiles.ITEM_ID, renderer, itemRectangle.x, itemRectangle.y, xZoom, yZoom);
+
+//        renderer.renderRectangle(itemRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
     }
 
     @Override

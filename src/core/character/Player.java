@@ -124,7 +124,7 @@ public class Player implements GameObject {
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
         renderer.renderSprite(animatedSprite, playerRectangle.x, playerRectangle.y, xZoom, yZoom);
 
-//        renderer.renderRectangle(collisionCheckRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
+//        renderer.renderRectangle(playerRectangle, Game.PLAYER_ZOOM, Game.PLAYER_ZOOM);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class Player implements GameObject {
         ArrayList<Item> items = game.getLevel1().getMap().getItems();
         ArrayList<GameObject> gameObjects = game.getLevel1().getMap().getGameObjects();
         while (itemsToRemoveID < items.size()) {
-            if (items.get(itemsToRemoveID).getCollisionCheckRectangle().intersects(this.collisionCheckRectangle)) {
+            if (items.get(itemsToRemoveID).getItemRectangle().intersects(this.playerRectangle)) {
                 bomLimit = 10;
                 itemCollide = true;
                 break;

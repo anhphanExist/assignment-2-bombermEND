@@ -2,4 +2,4 @@
 Grass-6-0-false
 Wall-5-0-true
 Brick-7-0-true
-Item-0-10-false
+BombItem-0-10-false
