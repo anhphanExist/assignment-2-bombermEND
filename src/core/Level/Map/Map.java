@@ -5,6 +5,7 @@ import core.Level.Level;
 import core.Level.Map.Tile.Tiles;
 import core.Rectangle;
 import core.RenderHandler;
+import core.animation.DeathAnimation;
 import core.animation.GameObject;
 import core.character.Bomb;
 import core.character.Enemy.Enemy;
@@ -31,6 +32,8 @@ public class Map {
     private ArrayList<Brick> bricks = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private Door door;
+
+    public static ArrayList<DeathAnimation> deathAnimations = new ArrayList<>();
 
     private File mapFile;
 
@@ -178,6 +181,13 @@ public class Map {
                 player.getBombs().get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
             }
         }
+
+        if (!deathAnimations.isEmpty()) {
+            for (int i = 0; i < deathAnimations.size(); i++) {
+                deathAnimations.get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
+            }
+        }
+
     }
 
     /**
@@ -196,6 +206,14 @@ public class Map {
                 player.getBombs().get(i).update(game);
             }
         }
+
+        if (!deathAnimations.isEmpty()) {
+            for (int i = 0 ; i < deathAnimations.size(); i++) {
+                deathAnimations.get(i).update(game);
+            }
+        }
+
+
     }
 
     /**
