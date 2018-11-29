@@ -11,9 +11,9 @@ import java.util.Random;
 
 public class Enemy extends Player {
     private int directCounting = 0;
-    private int enemySpeed = 5;
+    protected int enemySpeed = 5;
     private int enemyID;
-    private int enemyType;
+    protected int enemyType;
 
     /**
      * construct sprites of character from the sheet

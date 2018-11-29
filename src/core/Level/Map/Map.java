@@ -29,6 +29,7 @@ public class Map {
     private Player player = new Player(6);
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Brick> bricks = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
 
     private File mapFile;
 
@@ -67,8 +68,15 @@ public class Map {
                                 Brick newBrick = new Brick(i, curRow, tileSet);
                                 bricks.add(newBrick);
                                 gameObjects.add(newBrick);
-                            } else if (line.charAt(i) == 'f') {
-                                mappedTiles.add(new MappedTile(Tiles.ITEM_ID, i, curRow, true));
+                            } else if (line.charAt(i) == 'i') {
+                                mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
+                                Item newItem = new Item(i, curRow, tileSet);
+                                items.add(newItem);
+                                gameObjects.add(newItem);
+                                Brick newBrick = new Brick(i, curRow, tileSet);
+                                bricks.add(newBrick);
+                                gameObjects.add(newBrick);
+
                             } else if (line.charAt(i) == 'p'){
                                 // At the location of gameObject need to add grass as default
                                 mappedTiles.add(new MappedTile(Tiles.GRASS_ID, i, curRow, false));
@@ -134,7 +142,11 @@ public class Map {
         }
 
         // Load game objects in the maze
+
         for (int i = 0; i < gameObjects.size(); i++) {
+            if (gameObjects.get(i) instanceof Item) {
+                gameObjects.get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
+            }
             if (gameObjects.get(i) instanceof Brick) {
                 gameObjects.get(i).render(renderer, Game.MATERIAL_ZOOM, Game.MATERIAL_ZOOM);
             }
@@ -255,7 +267,7 @@ public class Map {
         }
         return false;
     }
-    
+
     /**
      * get type of Tile at coordinates x,y in the map
      * @param x
@@ -294,6 +306,10 @@ public class Map {
 
     public void setGameObjects(ArrayList<GameObject> gameObjects) {
         this.gameObjects = gameObjects;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public ArrayList<Brick> getBricks() {

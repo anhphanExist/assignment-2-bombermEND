@@ -13,6 +13,7 @@ public class Ghost extends Enemy {
      */
     public Ghost(int xLoc, int yLoc) {
         super(xLoc, yLoc, 0);
+        enemySpeed = 20;
     }
 
     public void update(Game game) {
