@@ -75,6 +75,20 @@ public class RenderHandler {
     }
 
     /**
+     * render our image to pixels
+     * @param image
+     * @param xPosition
+     * @param yPosition
+     * @param xZoom
+     * @param yZoom
+     */
+    public void renderImage(BufferedImage image, int xPosition, int yPosition, int xZoom, int yZoom)
+    {
+        int[] imagePixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+        renderArray(imagePixels, image.getWidth(), image.getHeight(), xPosition, yPosition, xZoom, yZoom);
+    }
+
+    /**
      * render a rectangle
      * @param rectangle
      * @param xZoom

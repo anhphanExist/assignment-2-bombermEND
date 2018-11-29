@@ -5,6 +5,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -39,7 +40,7 @@ public class Game extends JFrame implements Runnable {
 
     //region testing
     private Level level1;
-    private boolean isRunning = false;
+    private boolean isRunning;
 
 
 
@@ -125,8 +126,16 @@ public class Game extends JFrame implements Runnable {
         }
 
         // Quit game
-        setVisible(false);
-        System.exit(0);
+        gameOver();
+    }
+
+    public void gameOver() {
+        playSound("soundFolder/Died.wav",false);
+        level1.getBckGrd().stopPlaying();
+        removeKeyListener(keyBoard);
+        removeFocusListener(keyBoard);
+        setBackground(Color.black);
+        JOptionPane.showMessageDialog(null, "You Died","Game Over", JOptionPane.WARNING_MESSAGE);
     }
 
     /**

@@ -18,7 +18,7 @@ public class Explosion implements GameObject {
     private Bomb bomb;
     private Sprite[] sprites = new Sprite[4]; //Sprite of flames
     private Rectangle[] rectangles = new Rectangle[4];//flame saving location rectangles on sheet
-    private Rectangle[] flameLocation = new Rectangle[4]; //array saving saving location rectangles on map
+    private Rectangle[] flameLocation = new Rectangle[5]; //array saving saving location rectangles on map
 
     public Explosion(Game game, Bomb bomb) {
         this.game = game;
@@ -40,6 +40,7 @@ public class Explosion implements GameObject {
 
     @Override
     public void render(RenderHandler renderer, int xZoom, int yZoom) {
+        flameLocation[4] = bomb.getBombRectangle(); //Central flame
         for (int i = 0; i < sprites.length; i++) {
             if (i < 2) {
 

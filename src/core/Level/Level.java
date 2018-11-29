@@ -3,6 +3,7 @@ package core.Level;
 import core.Game;
 import core.Level.Map.Map;
 import core.Level.Map.Tile.Tiles;
+import core.Music;
 import core.RenderHandler;
 import core.animation.SpriteSheet;
 
@@ -17,6 +18,7 @@ public class Level {
     private static final String LEVEL1_PATH = "src/core/Level/Map/level1.txt";
     private static final String MATERIALS_PATH = "imageFolder/materials.png";
     private static final String TILES_PATH = "src/core/Level/Map/Tile/tiles.txt";
+    private Music bckGrd = new Music("soundFolder/Super Bomberman - Area 1 music.wav",true);
 
     private Game game;
 
@@ -38,7 +40,7 @@ public class Level {
             map = new Map(new File(LEVEL1_PATH), tiles);
 
             //play sound
-            Game.playSound("soundFolder/Super Bomberman - Area 1 music.wav", true);
+            bckGrd.startPlaying();
         }
         catch (NullPointerException e) {
             System.out.println("Load level failed");
@@ -70,5 +72,9 @@ public class Level {
      */
     public Map getMap() {
         return map;
+    }
+
+    public Music getBckGrd() {
+        return bckGrd;
     }
 }
